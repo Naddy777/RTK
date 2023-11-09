@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Тест</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+<h1>{{ Header1 }} </h1>
+<p> value = {{ value|default:"Нет данных"}} </p>
+<p> value = {{ value|add:"10" }} </p>
+    {% if value > 0 %}
+        <h3> Переменная больше нуля</h3>
+    {% else %}
+        <h3> Переменная не больше нуля</h3>
+    {% endif %}
+<li>
+    {% for m in numbers2 %}
+        <ul>{{ m }}</ul>
+    {% endfor %}
+    </li>
+<li>
+    {% for n in numbers %}
+        <ul>{{ n }}</ul>
+    {% endfor %}
+    </li>
+<li>
+    {% for n in numbers %}
+        <ul>{{ n.title }}, {{ n.date}} </ul>
+    {% endfor %}
+    </li>
+<li>
+    {% for n in numbers %}
+        <ul>{{ n.title|lower }}, {{ n.date}} </ul>
+    {% endfor %}
+    </li>
+<a href="about/">О нас рассказ (ссылка)
+</a>
+
+<a href="contacts/">Наши контакты (ссылка)
+</a>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-1">
+            <h1> Просто контейнер </h1>
+                <div class='news1'>
+                    <h2> Новость 1 </h2>
+                    <p> Текст новости</p>
+                </div>
+        </div>
+        <div class="col-xl-3">
+             <h1> Контейнер 1 </h1>
+                <div class='news1'>
+                     <h2> Новость 2 </h2>
+                     <p>Текст новости 2</p>
+                </div>
+         </div>
+        <div class="col-xl-5">
+             <h1> Контейнер 2 </h1>
+                <div class='news1'>
+                    <h2> Новость 3 </h2>
+                     <p>Текст новости 3</p>
+                </div>
+        </div>
+    </div>
+</div>
+<!--Установка трех колонок (одинаковых)-->
+<div class="container">
+  <div class="row">
+    <div class="col">
+      Колонка555
+    </div>
+    <div class="col">
+      Колонка555
+    </div>
+    <div class="col">
+      Колонка555
+    </div>
+  </div>
+</div>
+<!-- Установка ширины одной колонки -->
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      1 of 3
+    </div>
+    <div class="col-6">
+      2 of 3 (широкая)
+    </div>
+    <div class="col">
+      3 of 3
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      1 of 3
+    </div>
+    <div class="col-5">
+      2 of 3 (широкая)
+    </div>
+    <div class="col">
+      3 of 3
+    </div>
+  </div>
+</div>
+
+<!--Содержание переменной ширины-->
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+      1 of 3
+    </div>
+    <div class="col-md-auto">
+      Содержание переменной ширины
+    </div>
+    <div class="col col-lg-2">
+      3 of 3
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      1 of 3
+    </div>
+    <div class="col-md-auto">
+      Содержание переменной ширины
+    </div>
+    <div class="col col-lg-2">
+      3 of 3
+    </div>
+  </div>
+</div>
+
+<h3> Заголовок 3 </h3>
+<H6> Заголовок 6 </H6>
+<p> Параграф </p>
+<a href="about/">О нас (ссылка)</a>
+<img src="https://s1.1zoom.ru/big7/710/Winter_Snow_Snowflakes_468214.jpg" alt="Здесь была картинка">
+
+<table class="table table-bordered">
+     <tbody>
+    <th>Заголовок1 </th>
+    <th>Заголовок2 </th>
+    <tr>
+        <td>Текст ячейки 1</td>
+    </tr>
+    <tr>
+        <td>Текст ячейки 2</td>
+    </tr>
+     <tr cilspan="2">
+        <td>Текст ячейки 3</td>
+    </tr>
+     </tbody>
+</table>
+
+<table class="table table-striped">
+  <thead>
+    <tr class="table-info">
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-warning">
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr class="table-info">
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr class="table-warning">
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
+<table  class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
