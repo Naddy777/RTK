@@ -1,12 +1,32 @@
-body { margin: 20px;
-  background-color: #FFFFFF;}
+body { background-color: #FFFFFF;}
 
-.news1 { margin: 70px;
- color: red;}
+aside{  /* стиль боковой панели навигации */
+    float: left; /* позиция - слева */
+    background: #add8e6;/* цвет фона*/
+    width: 20%; /*ширина в % от экрана, можно указать в px */
+    padding: 1%; /*отступы */
+    height: 100vh; /* высота боковой панели - 100% от видимой высоты экрана*/
+    color: black; /* цвет текста */
+    border-right: 5px solid #add8e6; /* стиль границы панели */
+}
+a{
+    text-decoration:underline;
+    color:blue;
+}
+a:hover{
+    text-decoration:underline;
+    color:dark-blue;
+}
+}
+a:visited{
+    text-decoration:underline;
+    color:#480091;
+}
+/*a:link - просто ссылка
+a:visited - посещенная
+a:hover - наведённая
+a:active - нажатая
+*/
 
-.news1 h2{ color: green;}
-#news2{color: blue;}
 
-h3{	color: magenta;}
 
-div { margin: 50px;}
