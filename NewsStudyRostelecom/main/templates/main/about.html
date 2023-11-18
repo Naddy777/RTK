@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'main/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block title %} О нас {% endblock %}
+<head>
+    <meta charset="UTF-8">
+
+
+</head>
+{% block content %}
+<body>
+
+<h1 class="text-success">О нас</h1><br/><br/>
+<div class="container-fluid">
+  <p class="fw-bold">Наш сайт «Зеленые новости» начал работу совсем недавно.</p>
+    <p class="fw-bold">Ежедневно мы добавляем интересные публикации, собранные нашими пользователями со всех уголков мира.</p>
+    <p class="fw-bold">Наша Миссия - дарить читателям интересные факты, ценные и актуальные данные о мировых событиях, новых открытиях и забавных случаях в мире животных и растений.</p><br/>
+  </p>
+</div>
+<h1 class="text-success">Контакты</h1><br/>
+
+<div class="container-fluid">
+<table  class="table table-sm">
+    <tbody>
+    <tr>
+      <th>Адрес электронной почты редакции:</th>
+      <td>ng-y@yandex.ru</td>
+    </tr>
+    <tr>
+      <th>Телефон редакции:</th>
+      <td>+7 (921) 774-74-23</td>
+
+    </tr>
+    <tr>
+      <th>По вопросам размещения пресс-релизов и рекламы:</th>
+      <td>+7 (991) 037-53-27</td>
+
+    </tr>
+    <tr>
+      <th>Как нас найти:</th>
+      <td> Санкт-Петербург ул. Большая Морская д.26 БЦ "Сенатор" (Офис №666)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</body>
+{% endblock %}
+</html>

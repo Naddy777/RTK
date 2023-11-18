@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends 'main/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> {% block title %}Новость{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% block head %}{% endblock %}
+</head>
+{% block content %}
+       Тут будет одна новость, ее описание
+
+{% endblock %}
+</html>
