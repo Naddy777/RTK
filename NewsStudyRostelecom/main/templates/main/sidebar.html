@@ -1,37 +1,42 @@
+{% load static %}
 {% load bootstrap5 %}
-
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 
-<head>
+<link rel="stylesheet" href="{% static 'main/css/style.css' %}">
 <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
-</head>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12" style="background-color:#add8e6">
-            <div class="row">
-                <div class="col-3">
-            <img src="https://static.tildacdn.com/tild3364-3333-4931-a339-613264643931/image.png" alt="иконка"
-                 style="widht:auto; height:50px">
+<meta charset="utf-8">
+<aside>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12" style="background-color:#add8e6">
+                <div class="row">
+                    <div class="col-3 col-sm-3 col-md-4 col-ld-5">
+<!--                        <img src="https://www.pinclipart.com/picdir/big/347-3470308_tree-icon-conservation-icon-conservation-icon-png-clipart.png"-->
+<!--                             alt="иконка"-->
+<!--                             style="widht:auto; height:80px">-->
+                        <img src="{% static 'main/img/icon1.png' %}" alt="Иконка" style="widht:auto; height:80px"                        >
+                    </div>
+                    <div class="col-9 col-sm-9 col-md-8 col-ld-5 d-none d-lg-block ">
+                        <h2 class="text-success">"Зелёные" новости</h2>
+                    </div>
                 </div>
-                <div class="col-9">
-                    <h1>Меню сайта</h1>
+                 <hr>
+                <div>
+                    <h3>Меню сайта</h3>
                 </div>
+                <hr>
+                <row>
+                    <ul class="nav flex-column mb-auto">
+                        <li class="nav-item fw-bold"><a href="/"><div class="d-none d-lg-block"><i class="fa-solid fa-landmark"></i> Главная страница</div></a></li><br/>
+                        <li class="nav-item fw-bold"><a href="/news/"><div class="d-none d-lg-block"><i class="fa-solid fa-globe"></i> Новости</div></a></li><br/>
+                        <li class="nav-item fw-bold"><a href="/profile/"><div class="d-none d-lg-block"><i class="fa-solid fa-user-secret"></i> Мой профиль</div></a></li><br/>
+                        <li class="nav-item fw-bold"><a href="#"><div class="d-none d-lg-block"><i class="fa-solid fa-user-gear"></i> Регистрация</div></a></li><br/>
+                        <li class="nav-item fw-bold"><a href="#"><div class="d-none d-lg-block"><i class="fa-solid fa-fingerprint"></i> Вход в аккаунт</div></a></li><br/>
+                        <li class="nav-item fw-bold"><a href="/about/"><div class="d-none d-lg-block"><i class="fa-regular fa-handshake"></i> Контакты</div></a></li><br/>
+                    </ul>
+                </row>
             </div>
-            <div >
-                <h2>Пункты меню</h2>
-            </div>
-            <row>
-
-                   <ul><li><i class="fa-solid fa-landmark"></i><a href="#"> Главная страница</a></li></ul>
-                    <ul><li><i class="fa-solid fa-globe"></i><a href="#"> Новости</a></li></ul>
-                    <ul><li><i class="fa-solid fa-user-secret"></i><a href="#"> Мой профиль</a></li></ul>
-                    <ul><li><i class="fa-solid fa-user-gear"></i><a href="#"> Регистрация</a></li></ul>
-                    <ul><li><i class="fa-solid fa-fingerprint"></i><a href="#"> Вход в аккаунт</a></li></ul>
-
-
-            </row>
         </div>
     </div>
-</div>
-
+</aside>

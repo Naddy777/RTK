@@ -274,6 +274,58 @@
             </tr>
 
             </table>
+                <div>
+    <img src="https://static.tildacdn.com/tild3364-3333-4931-a339-613264643931/image.png"
+                             alt="иконка"
+                             style="widht:auto; height:80px">
+            </div>
+<form method="post">
+    {% csrf_token %}
+<h3> Выберите раздел новостей не о политике</h3>
+{% for news_part in news_part %}
+<input type="radio" id="{{ news_part }}" name="news_part" value="{{ forloop.counter }}">
+<label for="{{ news_part }}"> {{ news_part }} </label> <br>
+{% endfor %}
+<br>
+    <input class="btn-primary" type="submit" value="Сохранить">
+    <br>
+    <br>
+</form>
 
+<form method="post">
+    {% csrf_token %}
+    <p> Введите название товара: <br>
+        <input type="text" name="title"></p>
+    <br>
+    <p> Введите цену: <br>
+        <input type="text" name="price"></p>
+    <br>
+    <p> Выберите количество: <br>
+        <input type="number" name="quantity" min="1" max="100"></p>
+    <br>
+    <input class="btn-primary" type="submit" value="Создать товар">
+</form>
+
+
+<table width="500px"; border="1px">
+    <tr>
+        <th> Товар </th>
+        <th> Цена </th>
+        <th> Кол-во </th>
+        <th> Итого </th>
+    </tr>
+    <tr>
+        <td> {{ water.title }} </td>
+        <td> {{ water.price }} </td>
+        <td> {{ water.quantity }} </td>
+        <td> {{ water.amount }} </td>
+    </tr>
+    <tr>
+        <td> {{ chocolate.title }} </td>
+        <td> {{ chocolate.price }} </td>
+        <td> {{ chocolate.quantity }} </td>
+        <td> {{ chocolate.amount }} </td>
+    </tr>
+</table>
 </body>
 </html>

@@ -3,30 +3,42 @@ body { background-color: #FFFFFF;}
 aside{  /* стиль боковой панели навигации */
     float: left; /* позиция - слева */
     background: #add8e6;/* цвет фона*/
-    width: 20%; /*ширина в % от экрана, можно указать в px */
+    width: 100%; /*ширина в % от экрана, можно указать в px */
     padding: 1%; /*отступы */
     height: 100vh; /* высота боковой панели - 100% от видимой высоты экрана*/
-    color: black; /* цвет текста */
+    color: 003300; /* цвет текста */
     border-right: 5px solid #add8e6; /* стиль границы панели */
 }
 a{
     text-decoration:underline;
-    color:blue;
+    color:green;
 }
 a:hover{
     text-decoration:underline;
-    color:dark-blue;
+    color:olive;
 }
 }
 a:visited{
     text-decoration:underline;
-    color:#480091;
+    color:teal;
 }
 /*a:link - просто ссылка
 a:visited - посещенная
 a:hover - наведённая
 a:active - нажатая
 */
+body .content{
+    float: left;
+    color: black;
+    margin-top: 25px; /*верхний отступ от верхней части элемента*/
+    text-align: center; /*текст по центру*/
+    width: 75%; /*ширина элемента*/
+}
+body .single_news{
+    margin-top:15px;
+    float: left;
+    width: 90%;
+}
 
 
 

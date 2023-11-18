@@ -14,9 +14,9 @@ def index (request):
 #                'numbers': l,
 #                'numbers2': m,
 #                }
-#     colors = ['red', 'blue', 'golden', 'black']
-#     context1 = {
-#         'colors': colors
+    colors = ['red', 'blue', 'golden', 'black']
+#    context1 = {
+#      'colors': colors
 #     }
     if request.method == 'POST':
         print('Получили post-запрос')
@@ -24,24 +24,26 @@ def index (request):
         title = request.POST.get('title')
         price = request.POST.get('price')
         quantity = request.POST.get('quantity')
-        new_product = Product(title,float(price),int(quantity))
-        print('Создан товар: ', new_product.title, 'Общая сумма: ',new_product.amount())
+        new_product = Product(title, float(price), int(quantity))
+        print('Создан товар: ', new_product.title, 'Общая сумма: ', new_product.amount())
     else:
         print('Получили get-запрос')
 
-    water = Product('Добрый сок',40, 2)
+    water = Product('Добрый сок', 40, 2)
     chocolate = Product('Шоколад', 30, 1)
-    colors = ['red', 'blue','golden','black']
+    news_part = ['О животных', 'Природные явления', 'Наука и космос', 'Знаменитые люди']
     context = {
-        'colors': colors,
+        'news_part': news_part,
         'water': water,
         'chocolate': chocolate,
+        'colors': colors,
     }
     return render(request, 'main/index.html', context)
-def contacts (request):
-    return HttpResponse('<h1> Контакты </h1>')
+def new_single (request):
+    return render(request, 'main/new_single.html')
 def about (request):
-    return HttpResponse('<h1> О нас </h1>')
+    return render(request, 'main/about.html')
+
 def sidebar (request):
     return render(request, 'main/sidebar.html')
 
@@ -63,3 +65,14 @@ def get_demo(request,a,operation,b):
 
 def custom_404(request,exception):
     return HttpResponse(f'Страница не найдена. Код ошибки:  {exception}')
+
+def news (request):
+    return render(request, 'main/news.html')
+
+def profile (request):
+    return render(request, 'main/profile.html')
+
+def base (request):
+    return render(request, 'main/base.html')
+def base2 (request):
+    return render(request, 'main/base2.html')
