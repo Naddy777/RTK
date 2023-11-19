@@ -6,10 +6,32 @@
     <meta charset="UTF-8">
     <title>Тест</title>
     <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
 </head>
 <body>
+
+ <br/>
+                <div class=" col-6 dropdown text-left">
+                    <button class="btn btn-success btn-block dropdown-toggle dropdown-menu-right" type="button"
+                            id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="">
+                        <i class="fa-solid fa-user-secret"></i> Мой профиль
+                    </button>
+                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+                        <!--                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-gear"> </i><div class="d-none d-lg-block"> Регистрация</div></a></li>-->
+                        <li><a class="dropdown-item" href="/profile/"><i class="fa-solid fa-fingerprint"></i>
+                            <div class="d-none d-lg-block"> Вход в аккаунт</div>
+                        </a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#"> Выход</a></li>
+                    </ul>
+                </div>
+                <br/>
+                <br/>
 
 
 <h1>{{ Header1 }} </h1>
@@ -327,5 +349,28 @@
         <td> {{ chocolate.amount }} </td>
     </tr>
 </table>
+                <br/>
+                <br/>
+                <div class=" col-3 dropdown text-left">
+                    <button class="btn btn-success btn-block dropdown-toggle dropdown-menu-right" type="button"
+                            id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="">
+                        <i class="fa-solid fa-user-secret"></i> Мой профиль
+                    </button>
+                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+                        <!--                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user-gear"> </i><div class="d-none d-lg-block"> Регистрация</div></a></li>-->
+                        <li><a class="dropdown-item" href="/profile/"><i class="fa-solid fa-fingerprint"></i>
+                            <div class="d-none d-lg-block"> Вход в аккаунт</div>
+                        </a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#"> Выход</a></li>
+                    </ul>
+                </div>
+                <br/>
+                <br/>
+
+
 </body>
 </html>
