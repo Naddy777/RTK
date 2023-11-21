@@ -19,3 +19,8 @@ def detail(request,id):
     article = Article.objects.filter(id=id).first()
     print(article,type(article))
     return HttpResponse(f'<h1>{article.title}</h1>')
+
+# user_list = User.objects.all()
+#     for user in user_list:
+#         print(Article.objects.filter(author=user))
+#     print(user_list)

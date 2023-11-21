@@ -5,6 +5,7 @@
 
 <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
 <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
+
 <meta charset="utf-8">
 <aside>
     <div class="container-fluid">
@@ -17,7 +18,7 @@
                         <!--                             style="widht:auto; height:80px">-->
                         <img src="{% static 'main/img/icon1.png' %}" alt="Иконка" style="widht:auto; height:80px">
                     </div>
-                    <div class="col-9 col-sm-9 col-md-8 col-ld-5 d-none d-lg-block ">
+                    <div class="col-9 col-sm-9 col-md-8 col-ld-5 d-none d-lg-block responsive-title ">
                         <h2 class="text-success ">"Зелёные" новости</h2>
                     </div>
                 </div>
@@ -27,7 +28,7 @@
                 </div>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto" >
-                    <li class="nav-item fw-bold" ><a href="/"><i class="fa-solid fa-landmark"></i> Главная страница</a></li>
+                    <li class="nav-item fw-bold" ><a href="/"><i class="fa-solid fa-landmark"></i> <div class="d-none d-lg-block">Главная страница</div></a></li>
                     <br/>
                     <li class="nav-item fw-bold"><a href="{% url 'news' %}"><i class="fa-solid fa-globe"></i> <div class="d-none d-lg-block"> Новости</div>
                     </a></li>
