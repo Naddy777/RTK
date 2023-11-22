@@ -40,5 +40,22 @@ body .single_news{
     width: 90%;
 }
 
+/* Если размер экрана >=1340px то текст не переносится по словам */
+@media (min-width: 1680px) {
+  .responsive-title {
+    white-space: nowrap;
+
+  }
+}
+/* Если размер экрана <1340px то текст переносится по словам - тег white-space */
+@media (max-width: 1679.98px) {
+   .responsive-title{
+    white-space:normal;
+  }
+}
+
+.link-active {
+  color:olive;
+}
 
 

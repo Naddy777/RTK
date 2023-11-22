@@ -10,6 +10,5 @@ urlpatterns = [
     path('test_page/', views.test_page),
     path('news/', views.news, name='news'),
     path('base/', views.base),
-    path('base2/', views.base2),
     path('profile/', views.profile),
 ]

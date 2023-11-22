@@ -74,5 +74,3 @@ def profile (request):
 
 def base (request):
     return render(request, 'main/base.html')
-def base2 (request):
-    return render(request, 'main/base2.html')

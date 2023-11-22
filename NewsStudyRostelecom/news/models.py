@@ -12,12 +12,13 @@ class Tag(models.Model):
         verbose_name_plural='Тэги'
 
 class Article(models.Model):
-    categories = (('E','Economics')
-                  ('S','Shince')
-                  ('I','IT')
-
-
+    categories = (('A','Animals')
+                  ('P','Plants')
+                  ('M','Mickro')
+                  ('W', 'Water')
+                  ('N', 'Natural')
     )
+
     #поля                                       #models.CASCADE SET DEFAULT (совсем удалить пользователя вместе с новостями)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField('Название',max_length=50,default='')
