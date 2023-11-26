@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% extends 'main/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> {% block title %}Новость{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% block head %}{% endblock %}
+</head>
+{% block content %}
+       Тут будет одна новость, ее описание
+
+<div class="single_news">
+    <div class="p-4 p-md-5 rounded ">
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 fst-italic">Заголовок новости</h1>
+        </div>
+        <div class="row">
+            <div class="col-2 col-sm-3 col-md-2 col-ld-2">
+                <p class="small my-3">Дата новости</p>
+            </div>
+            <div class="col-6 col-sm-6 col-md-6 col-ld-6">
+                <p class="small my-3">Здесь будет указан автор новости</p>
+            </div>
+            <div class="col-4 col-sm-3 col-md-4 col-ld-4">
+                <p class="small my-3">Категория новости</p>
+            </div>
+        </div>
+        <div class="container-fluid">
+        <p class="lead my-3">Полный текст новости</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+</html>

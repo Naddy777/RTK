@@ -50,7 +50,7 @@ body .single_news{
 /* Если размер экрана <1340px то текст переносится по словам - тег white-space */
 @media (max-width: 1679.98px) {
    .responsive-title{
-    white-space:normal;
+    white-space: normal;
   }
 }
 
@@ -58,4 +58,15 @@ body .single_news{
   color:olive;
 }
 
-
+ .d-lg-block{
+    white-space: nowrap;
+   /* float: inline-start;
+    border-right: none;
+    overflow-x:auto;
+    */
+}
+.menu-icon{
+    float: inline-start;
+    padding: 5px 10px 0 0;
+    /*border-right: 5px;*/
+}

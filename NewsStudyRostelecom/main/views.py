@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
 from .models import News, Product
+from news.models import Article
+from django.db.models import Count, Avg
+from django.contrib.auth.models import User
 def index (request):
 #     value = -10
 #     n1 = News('Новость 1', 'Текст 1', '07.11.23')
@@ -18,6 +21,38 @@ def index (request):
 #    context1 = {
 #      'colors': colors
 #     }
+# Примеры values, values_list:
+#     all_news = Article.objects.all().values('author','title')
+#     for a in all_news:
+#         print(a['author'], a['title'])
+#     all_news = Article.objects.all().values_list('author','title')
+#     for a in all_news:
+#         print(a)
+    # По старому:
+    # article = Article.objects.get(id=1)
+    # print(article.author.username)
+
+    # Через select_related:
+    # article = Article.objects.select_related('author').get(id=1)
+    # print(article.author.username)
+
+    # Через prefetch_related М2М:
+    # articles= Article.objects.prefetch_related('tags').all()
+    # print(articles)
+
+# пример аннотирования и агрегации
+# count_articles = User.objects.annotate(Count('article',distinct=True))
+# print(count_articles)
+# for user in count_articles:
+#     print(user, user.article__count)
+
+# пример аннотирования и агрегации:
+#     max_article_count_user = User.objects.annotate(Count('article', distinct=True)).order_by('-article__count').first()
+#     print(max_article_count_user)
+#     max_article_count =  User.objects.annotate(Count('article', distinct=True)).aggregate(Max('article__count'))
+#     max_article_count_user2 = User.objects.annotate(Count('article', distinct=True)).filter(article__count__exact=max_article_count['article__count__max'])
+#     print(max_article_count_user2)
+
     if request.method == 'POST':
         print('Получили post-запрос')
         print(request.POST)
@@ -39,8 +74,8 @@ def index (request):
         'colors': colors,
     }
     return render(request, 'main/index.html', context)
-def new_single (request):
-    return render(request, 'main/new_single.html')
+# def new_single (request):
+#     return render(request, 'main/new_single.html')
 def about (request):
     return render(request, 'main/about.html')
 
@@ -66,8 +101,8 @@ def get_demo(request,a,operation,b):
 def custom_404(request,exception):
     return HttpResponse(f'Страница не найдена. Код ошибки:  {exception}')
 
-def news (request):
-    return render(request, 'main/news.html')
+# def news (request):
+#     return render(request, 'main/news.html')
 
 def profile (request):
     return render(request, 'main/profile.html')
