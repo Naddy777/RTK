@@ -40,7 +40,7 @@
                 <div class="row">
                     <div class="col-md-4 lead px-0 my-3">Дата: {{ article.date }}</div>
                     <div class="col-md-3 lead px-0 my-3 text-end">Автор: {{ article.author }} </div>
-                    <div class="col-md-5 lead px-0 my-3 text-end">Категория новости: {{ article.category }} </div>
+                    <div class="col-md-5 lead px-0 my-3 text-end">Категория новости: {{ article.get_category_display }} </div>
                 </div>
                 <p class="lead my-3">{{ article.anouncement }}</p>
                 <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>

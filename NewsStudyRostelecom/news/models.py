@@ -19,11 +19,11 @@ class PublishedToday(models.Manager):
         return super(PublishedToday,self).get_queryset().filter(date__gte=datetime.date.today())
 
 class Article(models.Model):
-    categories = (('A', 'Animals'),
-                  ('P', 'Plants'),
-                  ('M', 'Mickro'),
-                  ('W', 'Water'),
-                  ('N', 'Nature'))
+    categories = (('A', 'Животные'),
+                  ('P', 'Растения'),
+                  ('M', 'Микромир'),
+                  ('W', 'Вода'),
+                  ('N', 'Природа'))
     #поля                                       #models.CASCADE SET_DEFAULT (совсем удалить пользователя вместе с новостями)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField('Название', max_length=50, default='') #указывать длину обязательно#
@@ -34,7 +34,9 @@ class Article(models.Model):
     tags = models.ManyToManyField(to=Tag, blank=True)
     objects = models.Manager()
     published = PublishedToday()
-    image = models.ImageField(default='default1.jpg', blank=True, upload_to='images/')
+    image = models.ImageField(default='default1.jpg', null=True, blank=True, upload_to='images/')
+    # slug = models.SlugField()
+    # default='default1.jpg' - добавить в скобки полей для кари=тинок, если надо по умолчанию сделать дефолтную картинку
 
     #методы моделей
     def __str__(self):
@@ -42,6 +44,8 @@ class Article(models.Model):
     def image_tag(self):
         if self.image is not None:
             return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
+        else:
+            return '(нет картинки)'
 
     #
     def get_absolute_url(self):
@@ -58,3 +62,4 @@ class Article(models.Model):
     #     for t in self.tags.all():
     #         s += t.title + ' '
     #     return s
+

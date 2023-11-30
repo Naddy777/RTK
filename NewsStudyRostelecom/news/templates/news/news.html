@@ -24,10 +24,10 @@
                         <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">
                     </span>
                 </div>
-
             </form>
         </div>
     </div>
+    <br/>
     <div class="row px-4">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -48,26 +48,26 @@
             </ul>
     </div>
 
-<!--    <div class="content_center">-->
-<!--        <h2>Фильтр по категории новости</h2>-->
-<!--        <div class="form-group col-8">-->
-<!--            <form method="post">-->
-<!--                {% csrf_token %}-->
-<!--                <div class="input-group">-->
-<!--                    <select class="form-select" name="category_filter" style="widht:40%">-->
-<!--                        <option value="0">Все категории</option>-->
-<!--                        {% for categories in category_list %}-->
-<!--                        <option value="{{ article.category }}" {% if selected1 == article.category %} selected {% endif %}> {{ article.category }}</option>-->
-<!--                        {% endfor %}-->
-<!--                    </select>-->
-<!--                    <span class="input-group-btn">-->
-<!--                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">-->
-<!--                    </span>-->
-<!--                </div>-->
+    <div class="content_center">
+        <h2>Фильтр по категории новости</h2>
+        <div class="form-group col-8">
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <select class="form-select" name="category_filter" style="widht:40%">
+                        <option value="0">Все категории</option>
+                        {% for categories in categories %}
+                        <option value="{{ categories.0 }}" {% if selected1 == article.category %} selected1 {% endif %}> {{ categories.1 }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="input-group-btn">
+                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">
+                    </span>
+                </div>
 
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
+            </form>
+        </div>
+    </div>
 
 </div>
 
@@ -89,7 +89,7 @@
                                     <div class="row">
                                         <div class="col-md-4 lead px-0 my-3">Дата: {{ article.date }}</div>
                                         <div class="col-md-3 lead px-0 my-3 text-end">Автор: {{ article.author }} </div>
-                                        <div class="col-md-5 lead px-0 my-3 text-end">Категория новости: {{ article.category }} </div>
+                                        <div class="col-md-5 lead px-0 my-3 text-end">Категория новости: {{ article.get_category_display }} </div>
                                     </div>
                             <div class="row">
                                 <div class="col-4 ">

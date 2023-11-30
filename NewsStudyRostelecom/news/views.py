@@ -1,9 +1,26 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from .models import *
 from django.http import HttpResponse
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.db import connection, reset_queries
+from django.views.generic import DetailView, DeleteView, UpdateView
+
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = 'news/news_single2.html'
+    context_object_name = 'article'
+
+class ArticleUpdateView(UpdateView):
+    model = Article
+    template_name = 'news/create_article.html'
+    fields = ['title','anouncement','text','image','tags','category']
+
+class ArticleDeleteView(DeleteView):
+    model = Article
+    success_url = reverse_lazy('news_index')
+    template_name = 'news/delete_news.html'
 
 
 # Вытаскиваем первую новость, автора, заголовок
@@ -43,7 +60,7 @@ from django.db import connection, reset_queries
 
 def news(request):
     user_list = User.objects.all() #Список всех юзеров#
-    # category_list = Article.category.
+    category_list = Article.categories
     selected = 0
     # selected1 = 0
     if request.method == "POST":
@@ -54,8 +71,15 @@ def news(request):
         else:
             articles = Article.objects.filter(author=selected).order_by('-date')
         print(connection.queries)
+        # selected1 = int(request.POST.get('category_filter'))
+        # if selected1 == 0:
+        #     articles = Article.objects.all().order_by('-date')
+        # else:
+        #     articles = Article.objects.filter(category=selected1).order_by('-date')
+        # print(connection.queries)
     else:
         articles = Article.objects.all().order_by('-date')
+
     # if request.method == "POST":
     #     print(request.POST)
     #     selected1 = int(request.POST.get('category_filter'))
@@ -66,7 +90,7 @@ def news(request):
     #     print(connection.queries)
     # else:
     #     articles1 = Article.objects.all().order_by('-date')
-    context = {'articles': articles, 'author_list': user_list,  'selected': selected} #'categories': category_list,'articles1': articles1,'selected1': selected1}
+    context = {'articles': articles, 'author_list': user_list,  'selected': selected, 'categories': category_list} #,'articles1': articles1,'selected1': selected1}
 
     # for category_single in category:
     #     print(Article.category.filter(author=user))
@@ -102,6 +126,10 @@ def new_single (request):
     context = {'article': article}
     return render(request, 'news/new_single.html', context)
 
+def new_single2 (request):
+    article = Article.objects.all().last()
+    context = {'article': article}
+    return render(request, 'news/new_single.html', context)
 
 # def index(request):
 #     article = Article.objects.all().first()
@@ -144,9 +172,16 @@ def create_article(request):
                 new_article = form.save(commit=False) #появится экземпляр новой статьи, но не будет сохранен в БД
                 new_article.author = current_user
                 new_article.save() #сохраняем в БД
-                form.save_m2m()
+                form.save_m2m() # добавляем связи много ко многим
                 # form = ArticleForm() # обнуляем (чистим) форму
                 return redirect('news_index')
     else:
         form = ArticleForm()
     return render(request,'news/create_article.html', {'form':form})
+
+def detail2(request, id):
+    article = Article.objects.filter(id=id).first()
+    print(article, type(article))
+    context = {'article': article}
+    # return HttpResponse(f'<h1>{article.title}</h1>')
+    return render(request, 'news/new_single.html', context)
