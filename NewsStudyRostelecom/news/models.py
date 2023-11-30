@@ -19,11 +19,11 @@ class PublishedToday(models.Manager):
         return super(PublishedToday,self).get_queryset().filter(date__gte=datetime.date.today())
 
 class Article(models.Model):
-    categories = (('A', 'Animals'),
-                  ('P', 'Plants'),
-                  ('M', 'Mickro'),
-                  ('W', 'Water'),
-                  ('N', 'Nature'))
+    categories = (('A', 'Животные'),
+                  ('P', 'Растения'),
+                  ('M', 'Микромир'),
+                  ('W', 'Вода'),
+                  ('N', 'Природа'))
     #поля                                       #models.CASCADE SET_DEFAULT (совсем удалить пользователя вместе с новостями)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField('Название', max_length=50, default='') #указывать длину обязательно#

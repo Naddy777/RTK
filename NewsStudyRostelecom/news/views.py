@@ -43,7 +43,6 @@ from django.db import connection, reset_queries
 
 def news(request):
     user_list = User.objects.all() #Список всех юзеров#
-    # category_list = Article.category.
     selected = 0
     # selected1 = 0
     if request.method == "POST":
@@ -66,7 +65,7 @@ def news(request):
     #     print(connection.queries)
     # else:
     #     articles1 = Article.objects.all().order_by('-date')
-    context = {'articles': articles, 'author_list': user_list,  'selected': selected} #'categories': category_list,'articles1': articles1,'selected1': selected1}
+    context = {'articles': articles, 'author_list': user_list,  'selected': selected }#'categories': category_list} #,'articles1': articles1,'selected1': selected1}
 
     # for category_single in category:
     #     print(Article.category.filter(author=user))
