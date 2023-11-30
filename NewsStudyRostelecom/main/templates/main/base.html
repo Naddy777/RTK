@@ -15,21 +15,13 @@
 <body class="bg-warning bg-opacity-10">
     <div class="row">
         <div class="col-3">
-            {% include 'main/sidebar.html' %}
+            <div class="sticky-top">
+                {% include 'main/sidebar.html' %}
+            </div>
         </div>
         <div class="col-9">
             {% block content %}
-            <div class="row">
-                <div class="single_news">
-                    <div class="bg-warning p-4 p-md-5 text-black bg-opacity-10">
-                        <div class="col-md-6 px-0">
-                            <h1 class="display-4 fst-italic">Последняя новость</h1>
-                            <p class="lead my-3">Начало новости, для продолжения чтения нужно пройти по ссылке ниже</p>
-                            <p class="lead mb-0"><a href="#" class="text-black fw-bold">Полный текст...</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             {% endblock %}
         </div>
     </div>

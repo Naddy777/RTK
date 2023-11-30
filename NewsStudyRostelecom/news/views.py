@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from django.http import HttpResponse
+from .forms import *
+from django.contrib.auth.decorators import login_required
+from django.db import connection, reset_queries
 
-# Create your views here.
+
 # Вытаскиваем первую новость, автора, заголовок
 # def news (request):
 #     article = Article.objects.all().first()
@@ -38,29 +41,54 @@ from django.http import HttpResponse
 #     context = {'article': articles}
 #     return render(request, 'news/news.html', context)
 
-def news (request):
-    articles = Article.objects.all()
+def news(request):
     user_list = User.objects.all() #Список всех юзеров#
-    for user in user_list:
-        print(Article.objects.filter(author=user))
-    print(user_list)
-    context = {'articles': articles, 'author_list': user_list }
+    # category_list = Article.category.
+    selected = 0
+    # selected1 = 0
+    if request.method == "POST":
+        # print(request.POST)
+        selected = int(request.POST.get('author_filter'))
+        if selected == 0:
+            articles = Article.objects.all().order_by('-date')
+        else:
+            articles = Article.objects.filter(author=selected).order_by('-date')
+        print(connection.queries)
+    else:
+        articles = Article.objects.all().order_by('-date')
+    # if request.method == "POST":
+    #     print(request.POST)
+    #     selected1 = int(request.POST.get('category_filter'))
+    #     if selected1 == 0:
+    #         articles1 = Article.objects.all().order_by('-date')
+    #     else:
+    #         articles1 = Article.objects.filter(category=selected1).order_by('-date')
+    #     print(connection.queries)
+    # else:
+    #     articles1 = Article.objects.all().order_by('-date')
+    context = {'articles': articles, 'author_list': user_list,  'selected': selected} #'categories': category_list,'articles1': articles1,'selected1': selected1}
+
+    # for category_single in category:
+    #     print(Article.category.filter(author=user))
+    # print(user_list)
+    # articles = Article.objects.filter(author=request.user.id) #печатаем все статьи одного пользователя
+    # context = {'article': articles}
     return render(request, 'news/news.html', context)
 
 def index(request):
     #пример применения пользовательского менджера
     articles = Article.published.all()
-    context={'today_articles': articles}
+    context={'today_articles': articles} #Это пример
     author_list = User.objects.all()
     selected = 0
     if request.method=="POST":
-        print(request.POST)
+        # print(request.POST)
         selected = int(request.POST.get('author_filter'))
         if selected == 0:
             articles = Article.objects.all()
         else:
             articles = Article.objects.filter(author=selected)
-        print(connection.queries)
+        # print(connection.queries)
     else:
         articles = Article.objects.all()
     context = {'articles': articles, 'author_list': author_list, 'selected': selected }
@@ -70,7 +98,9 @@ def index(request):
 
 
 def new_single (request):
-    return render(request, 'news/new_single.html')
+    article = Article.objects.all().last()
+    context = {'article': article}
+    return render(request, 'news/new_single.html', context)
 
 
 # def index(request):
@@ -78,11 +108,12 @@ def new_single (request):
 #     context = {'article':article}
 #     return render(request,'news/index.html',context)
 
-def detail(request,id):
+def detail(request, id):
     article = Article.objects.filter(id=id).first()
     print(article, type(article))
-    return HttpResponse(f'<h1>{article.title}</h1>')
-    # return render(request, 'news/new_single.html')
+    context = {'article': article}
+    # return HttpResponse(f'<h1>{article.title}</h1>')
+    return render(request, 'news/new_single.html', context)
 #Пример создания новостей#
 # def detail(request,id):
 #     author = User.objects.get(id=request.user.id)
@@ -102,3 +133,20 @@ def detail(request,id):
 #     for user in user_list:
 #         print(Article.objects.filter(author=user))
 #     print(user_list)
+
+@login_required (login_url="/") #человек не аутентифицирован - отправляем на другую страницу
+def create_article(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            current_user = request.user
+            if current_user.id !=None: #проверили что не аноним
+                new_article = form.save(commit=False) #появится экземпляр новой статьи, но не будет сохранен в БД
+                new_article.author = current_user
+                new_article.save() #сохраняем в БД
+                form.save_m2m()
+                # form = ArticleForm() # обнуляем (чистим) форму
+                return redirect('news_index')
+    else:
+        form = ArticleForm()
+    return render(request,'news/create_article.html', {'form':form})

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
+import datetime
 
 class Tag(models.Model):
     title = models.CharField(max_length=80)
@@ -12,20 +13,20 @@ class Tag(models.Model):
         verbose_name = 'Тэг'
         verbose_name_plural = 'Тэги'
 
-import datetime
+
 class PublishedToday(models.Manager):
     def get_queryset(self):
         return super(PublishedToday,self).get_queryset().filter(date__gte=datetime.date.today())
 
 class Article(models.Model):
     categories = (('A', 'Animals'),
-                  ('P','Plants'),
+                  ('P', 'Plants'),
                   ('M', 'Mickro'),
                   ('W', 'Water'),
                   ('N', 'Nature'))
     #поля                                       #models.CASCADE SET_DEFAULT (совсем удалить пользователя вместе с новостями)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    title = models.CharField('Название',max_length=50, default='') #указывать длину обязательно#
+    title = models.CharField('Название', max_length=50, default='') #указывать длину обязательно#
     anouncement = models.TextField('Аннотация', max_length=250) #можно не указывать длину#
     text = models.TextField('Текст новости')
     date = models.DateTimeField('Дата публикации', auto_now=True) # auto_now=True - автоизменение новости auto_create=True - автосоздание новости#
@@ -33,13 +34,15 @@ class Article(models.Model):
     tags = models.ManyToManyField(to=Tag, blank=True)
     objects = models.Manager()
     published = PublishedToday()
-    image = models.ImageField(blank=True, upload_to='images/')
+    image = models.ImageField(default='default1.jpg', blank=True, upload_to='images/')
+
     #методы моделей
     def __str__(self):
         return f'{self.title} от: {str(self.date)[:16]}'
     def image_tag(self):
         if self.image is not None:
             return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
+
     #
     def get_absolute_url(self):
         return f'/news/{self.id}' # еще допускается ключ pk#

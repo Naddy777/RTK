@@ -5,35 +5,69 @@
 
 {% block content %}
 <div class="row">
-            <div class="text-center" style="margin-top:30px;">
-                    <h1 class="text-success">Новости нашего сайта по категориям</h1><br/>
-            </div>
+    <div class="text-center" style="margin-top:30px;">
+        <h1 class="text-success">Новости нашего сайта по категориям</h1><br/>
+    </div>
+    <div class="content_center">
+        <h2>Фильтр по автору</h2>
+        <div class="form-group col-8">
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <select class="form-select" name="author_filter" style="widht:40%">
+                        <option value="0">Все авторы</option>
+                        {% for author in author_list %}
+                        <option value="{{ author.id }}" {% if selected == author.id %} selected {% endif %}> {{ author.username }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="input-group-btn">
+                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">
+                    </span>
+                </div>
 
- <div class="row">
-     <ul class="nav nav-tabs">
-         <li class="nav-item">
-             <a class="nav-link active color:green" data-toggle="tab" href="#">О растениях</a>
-         </li>
-         <li class="nav-item">
-             <a class="nav-link" data-toggle="tab" href="#">О животных</a>
-         </li>
-         <li class="nav-item">
-             <a class="nav-link" data-toggle="tab" href="#">Микромир</a>
-         </li>
-         <li class="nav-item">
-             <a class="nav-link" data-toggle="tab" href="#">Водная стихия</a>
-         </li>
-         <li class="nav-item">
-             <a class="nav-link" data-toggle="tab" href="#">Явления природы</a>
-         </li>
-     </ul>
- </div>
-            <div>
+            </form>
+        </div>
+    </div>
+    <div class="row px-4">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active color:green" data-toggle="tab" href="#">О растениях</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#">О животных</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#">Микромир</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#">Водная стихия</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#">Явления природы</a>
+                </li>
+            </ul>
+    </div>
 
-            </div>
+<!--    <div class="content_center">-->
+<!--        <h2>Фильтр по категории новости</h2>-->
+<!--        <div class="form-group col-8">-->
+<!--            <form method="post">-->
+<!--                {% csrf_token %}-->
+<!--                <div class="input-group">-->
+<!--                    <select class="form-select" name="category_filter" style="widht:40%">-->
+<!--                        <option value="0">Все категории</option>-->
+<!--                        {% for categories in category_list %}-->
+<!--                        <option value="{{ article.category }}" {% if selected1 == article.category %} selected {% endif %}> {{ article.category }}</option>-->
+<!--                        {% endfor %}-->
+<!--                    </select>-->
+<!--                    <span class="input-group-btn">-->
+<!--                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">-->
+<!--                    </span>-->
+<!--                </div>-->
 
-
-
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
 
 </div>
 
@@ -51,19 +85,22 @@
     {% for article in articles %}
                     <div class="single_news">
                         <div class="p-4 p-md-5 border rounded" >
-                                <div class="col-8 px-0">
-                                  <h1 class="display-6 fst-italic"> {{ article.title }}</h1>
+                            <h1 class="display-6 fst-italic"> {{ article.title }}</h1>
                                     <div class="row">
                                         <div class="col-md-4 lead px-0 my-3">Дата: {{ article.date }}</div>
                                         <div class="col-md-3 lead px-0 my-3 text-end">Автор: {{ article.author }} </div>
                                         <div class="col-md-5 lead px-0 my-3 text-end">Категория новости: {{ article.category }} </div>
                                     </div>
-                                  <p class="lead my-3">{{ article.anouncement }}</p>
-                                  <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>
-                                </div>
+                            <div class="row">
                                 <div class="col-4 ">
                                     <img src="{{ article.image.url }}" class=" img-responsive img-fluid rounded">
                                 </div>
+                                <div class="col-8 ">
+                                  <p class="lead my-3">{{ article.anouncement }}</p>
+                                  <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>
+                                </div>
+                            </div>
+
 
 <!--<div class="col-sm-4" >-->
 <!--                    <img src="{% static 'main/img/colibri.jpg' %}" alt="Колибри"-->

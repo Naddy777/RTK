@@ -8,14 +8,13 @@
 {% block content %}
 <div class="row ">
     <div class="text-center" style="margin-top:30px;">
-        <h1 class="text-success">Главные события нашей Зеленой Планеты 24 часа в сутки!</h1>
+        <h2 class="text-success">Главные события нашей Зеленой Планеты 24 часа в сутки!</h2>
     </div>
     <div class="text-center" style="margin-top:30px;">
         <h3>Интересные новости про обитателей флоры и фауны, живые истории, оригинальные фото и видео со всех уголков мира</h3>
     </div>
     <div class="container-fluid">
         <div class="row align-items-center">
-<!--            <div class="d-flex justify-content-center">-->
                 <div class="col-sm-4" >
                     <img src="{% static 'main/img/colibri.jpg' %}" alt="Колибри"
                          class=" img-responsive img-fluid rounded">
@@ -28,17 +27,26 @@
                     <img src="{% static 'main/img/lion.jpg' %}" alt="Лев" class="img-responsive img-fluid rounded">
                 </div>
         </div>
-            <!--                <div class="d-flex justify-content-center">...</div>-->
-<!--        </div>-->
     </div>
-    <div class="row">
-        <div class="single_news">
-            <div class="bg-warning p-4 p-md-5 text-black bg-opacity-10">
-                <div class="col-md-6 px-0">
-                    <h1 class="display-4 fst-italic">Последняя новость</h1>
-                    <p class="lead my-3">Начало новости, для продолжения чтения нужно пройти по ссылке ниже</p>
-                    <p class="lead mb-0"><a href="{% url 'new_single' %}" class="text-black fw-bold">Полный текст...</a></p>
+</div>
+<div class="single_news" >
+    <div class="bg-warning bg-opacity-10 p-4 px-md-5 border rounded" >
+        <div class="row text-end px-0">
+            <h1 class="display-6 fst-italic text-success">Последняя новость сайта. Выложил пользователь: {{ article.author }} </h1>
+        </div>
+        <div class="row">
+            <div class="col-8 px-0">
+                <h1 class="display-6 fst-italic"> {{ article.title }}</h1>
+                <div class="row">
+                    <div class="col-md-4 lead px-0 my-3">Дата: {{ article.date }}</div>
+                    <div class="col-md-3 lead px-0 my-3 text-end">Автор: {{ article.author }} </div>
+                    <div class="col-md-5 lead px-0 my-3 text-end">Категория новости: {{ article.category }} </div>
                 </div>
+                <p class="lead my-3">{{ article.anouncement }}</p>
+                <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>
+            </div>
+            <div class="col-4 ">
+                <img src="{{ article.image.url }}" class="p-4 img-responsive img-fluid rounded">
             </div>
         </div>
     </div>

@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-# Create your views here.
 from .models import News, Product
 from news.models import Article
 from django.db.models import Count, Avg
@@ -17,14 +16,16 @@ def index (request):
 #                'numbers': l,
 #                'numbers2': m,
 #                }
-    colors = ['red', 'blue', 'golden', 'black']
+#     colors = ['red', 'blue', 'golden', 'black']
 #    context1 = {
 #      'colors': colors
 #     }
 # Примеры values, values_list:
-#     all_news = Article.objects.all().values('author','title')
-#     for a in all_news:
-#         print(a['author'], a['title'])
+    all_news = Article.objects.all().values('author','title')
+    article = Article.objects.all().last()
+    # for a in all_news:
+    #     print(a['author'], a['title'])
+    context = {'articles': all_news, 'article': article}
 #     all_news = Article.objects.all().values_list('author','title')
 #     for a in all_news:
 #         print(a)
@@ -53,26 +54,26 @@ def index (request):
 #     max_article_count_user2 = User.objects.annotate(Count('article', distinct=True)).filter(article__count__exact=max_article_count['article__count__max'])
 #     print(max_article_count_user2)
 
-    if request.method == 'POST':
-        print('Получили post-запрос')
-        print(request.POST)
-        title = request.POST.get('title')
-        price = request.POST.get('price')
-        quantity = request.POST.get('quantity')
-        new_product = Product(title, float(price), int(quantity))
-        print('Создан товар: ', new_product.title, 'Общая сумма: ', new_product.amount())
-    else:
-        print('Получили get-запрос')
-
-    water = Product('Добрый сок', 40, 2)
-    chocolate = Product('Шоколад', 30, 1)
-    news_part = ['О животных', 'Природные явления', 'Наука и космос', 'Знаменитые люди']
-    context = {
-        'news_part': news_part,
-        'water': water,
-        'chocolate': chocolate,
-        'colors': colors,
-    }
+    # if request.method == 'POST':
+    #     print('Получили post-запрос')
+    #     print(request.POST)
+    #     title = request.POST.get('title')
+    #     price = request.POST.get('price')
+    #     quantity = request.POST.get('quantity')
+    #     new_product = Product(title, float(price), int(quantity))
+    #     print('Создан товар: ', new_product.title, 'Общая сумма: ', new_product.amount())
+    # else:
+    #     print('Получили get-запрос')
+    #
+    # water = Product('Добрый сок', 40, 2)
+    # chocolate = Product('Шоколад', 30, 1)
+    # news_part = ['О животных', 'Природные явления', 'Наука и космос', 'Знаменитые люди']
+    # context = {
+    #     'news_part': news_part,
+    #     'water': water,
+    #     'chocolate': chocolate,
+    #     'colors': colors,
+    # }
     return render(request, 'main/index.html', context)
 # def new_single (request):
 #     return render(request, 'main/new_single.html')

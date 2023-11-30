@@ -9,6 +9,26 @@ aside{  /* стиль боковой панели навигации */
     color: 003300; /* цвет текста */
     border-right: 5px solid #add8e6; /* стиль границы панели */
 }
+.button5{
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 10px 100px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 25px;
+    cursor: pointer;
+}
+/*a:hover.button5{
+    text-decoration:none;
+    color: yellow;
+    }*/
+a:visited.button5{
+    text-decoration:underline;
+    color:white;
+}
 a{
     text-decoration:underline;
     color:green;
@@ -30,20 +50,21 @@ a:active - нажатая
 body .content{
     float: left;
     color: black;
-    margin-top: 25px; /*верхний отступ от верхней части элемента*/
+    margin-top: 10px; /*верхний отступ от верхней части элемента*/
     text-align: center; /*текст по центру*/
-    width: 75%; /*ширина элемента*/
+    width: 85%; /*ширина элемента*/
 }
 body .single_news{
-    margin-top:15px;
+    margin-top:20px;
     float: left;
-    width: 90%;
+    width: 97%;
 }
+
 
 /* Если размер экрана >=1340px то текст не переносится по словам */
 @media (min-width: 1680px) {
   .responsive-title {
-    white-space: nowrap;
+   white-space: nowrap;
 
   }
 }
