@@ -21,7 +21,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script>
   $(function() {
-    $("#search_input").autocomplete({
+    $("#search_input1").autocomplete({
       source: "search_auto/",
       select: function (event, ui) { //item selected
         AutoCompleteSelectHandler(event, ui)
@@ -46,9 +46,11 @@
     <div class="content_center">
     <div class="row">
         <div class="search">
-            <label for="search_input">Поиск: </label>
-            <input id="search_input">
-            <button class="btn btn-primary"> Найти</button>
+            <label for="search_input1">Поиск: </label>
+            <input id="search_input1" placeholder="Начните вводить здесь...">
+            <button class="btn btn-success"> Найти</button>
+            <br>
+                    <small class="text-muted"> *Это временная кнопка поиска, уберется, когда будет настроена на боковом меню</small>
         </div>
     </div>
 

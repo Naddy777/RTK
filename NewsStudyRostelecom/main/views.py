@@ -4,6 +4,7 @@ from .models import News, Product
 from news.models import Article
 from django.db.models import Count, Avg
 from django.contrib.auth.models import User
+import json
 def index (request):
 #     value = -10
 #     n1 = News('Новость 1', 'Текст 1', '07.11.23')
@@ -105,8 +106,22 @@ def custom_404(request,exception):
 # def news (request):
 #     return render(request, 'main/news.html')
 
-def profile (request):
-    return render(request, 'main/profile.html')
+
 
 def base (request):
     return render(request, 'main/base.html')
+
+# def search_auto1(request):
+#     print('вызов функции')
+#     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+#         q = request.GET.get('term','')
+#         articles = Article.objects.filter(title__contains=q)
+#         results =[]
+#         for a in articles:
+#             results.append(a.title)
+#         data = json.dumps(results)
+#     else:
+#         data = 'fail'
+#     mimetype = 'application/json'
+#     print('Работает?', results)
+#     return HttpResponse(data,mimetype)

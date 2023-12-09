@@ -20,7 +20,7 @@
                 </div>
                 <hr>
                 <div>
-                    <h3> Меню сайта</h3>
+                    <h3> Страница пользователя</h3>
                 </div>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto" >
@@ -33,18 +33,24 @@
                     <br/>
                     <li class="nav-item fw-bold">
                         <a href="{% url 'news_index' %}" {% if request.resolver_match.view_name == "news_index" %} class="link-active" aria-current="page" {% endif %}>
-                            <i class="fa-solid fa-globe menu-icon"></i>
-                            <div class="d-none d-lg-block"> Новости</div>
+                            <i class="fa-solid fa-envelopes-bulk menu-icon"></i>
+                            <div class="d-none d-lg-block"> Мои статьи</div>
                         </a>
                     </li>
                     <br/>
                     <li class="nav-item fw-bold">
-                        <a href="{% url 'about' %}" {% if request.resolver_match.view_name == "about" %} class="link-active" aria-current="page" {% endif %}>
-                            <i class="fa-regular fa-handshake menu-icon"></i>
-                            <div class="d-none d-lg-block"> Контакты</div>
+                        <a href="{% url 'create_article' %}" {% if request.resolver_match.view_name == "create" %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-solid fa-pen-nib menu-icon"></i>
+                            <div class="d-none d-lg-block"> Создать статью</div>
                         </a>
                     </li>
                     <br/>
+                    <li class="nav-item fw-bold">
+                        <a href="{% url 'profile' %}" {% if request.resolver_match.view_name == "profile" %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-solid fa-user-secret menu-icon"></i>
+                            <div class="d-none d-lg-block"> Мой профиль </div>
+                        </a>
+                    </li>
                 </ul>
                 <hr>
                 <div>

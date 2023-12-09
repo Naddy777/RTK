@@ -24,6 +24,7 @@ import json
 #     mimetype = 'application/json'
 #     return HttpResponse(data,mimetype)
 
+#Для поиска в шаблоне списка новостей
 def search_auto(request):
     print('вызов функции')
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -36,9 +37,24 @@ def search_auto(request):
     else:
         data = 'fail'
     mimetype = 'application/json'
-    print('Работает?', results, data, mimetype)
+    print('Работает?', results)
     return HttpResponse(data,mimetype)
 
+#Для поиска в сайдбаре
+def search_auto1(request):
+    print('вызов функции')
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        q = request.GET.get('term','')
+        articles = Article.objects.filter(title__contains=q)
+        results =[]
+        for a in articles:
+            results.append(a.title)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    print('Работает?', results)
+    return HttpResponse(data,mimetype)
 
 class ArticleDetailView(DetailView):
     model = Article
