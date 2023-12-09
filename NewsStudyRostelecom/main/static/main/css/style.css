@@ -91,3 +91,9 @@ body .single_news{
     padding: 5px 10px 0 0;
     /*border-right: 5px;*/
 }
+
+div.breadcrumbs {
+    background: #339966;
+}
+.module caption{
+background: #339966;}

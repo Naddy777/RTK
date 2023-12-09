@@ -6,6 +6,16 @@
 {% block title %} Главная страница {% endblock %}
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
 <div class="row ">
     <div class="text-center" style="margin-top:30px;">
         <h2 class="text-success">Главные события нашей Зеленой Планеты 24 часа в сутки!</h2>
@@ -46,7 +56,26 @@
                 <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>
             </div>
             <div class="col-4 ">
-                <img src="{{ article.image.url }}" class="p-4 img-responsive img-fluid rounded">
+                {% if article.image_set.all %}
+                <div id="carouselControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" role="listbox" style=" width:auto; height: 300px !important;">
+                        {% for image in article.image_set.all %}
+                        <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+                            <img class="d-block p-4 img-responsive img-fluid rounded" src="{{ image.image.url }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                {% endif%}
+                <!--                <img src="{{ article.image.url }}" class="p-4 img-responsive img-fluid rounded">-->
             </div>
         </div>
     </div>

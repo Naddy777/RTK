@@ -11,7 +11,7 @@
              Страница для создания новости
          </h1>
      </div>
-     <form method="post">
+     <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <input type="submit" class = "btn btn-success" value = "Сохранить">

@@ -3,9 +3,31 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 
+
 <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
 <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
 <meta charset="utf-8">
+<!-- jQuery !-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+<!-- jQuery UI !-->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+  $(function() {
+    $("#search_input").autocomplete({
+      source: "search_auto",
+      select: function (event, ui) { //item selected
+        AutoCompleteSelectHandler(event, ui)
+      },
+      minLength: 2,
+    });
+  });
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = ui.item;
+  }
+</script>
+
 <aside>
     <div class="container-fluid">
 <!--        <div class="row">-->
@@ -25,7 +47,7 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto" >
                     <li class="nav-item fw-bold ">
-                        <a href="{% url 'home' %}" {% if request.path == '/' %} class="link-active" aria-current="page" {% endif %}>
+                        <a href="{% url 'home' %}" {% if request.resolver_match.view_name == "home" %} class="link-active" aria-current="page" {% endif %}>
                         <i class="fa-solid fa-landmark menu-icon"></i>
                         <div class="d-none d-lg-block">Главная страница</div>
                         </a>
@@ -39,43 +61,71 @@
                     </li>
                     <br/>
                     <li class="nav-item fw-bold">
-                        <a href="{% url 'about' %}" {% if request.path == "/about/" %} class="link-active" aria-current="page" {% endif %}>
+                        <a href="{% url 'about' %}" {% if request.resolver_match.view_name == "about" %} class="link-active" aria-current="page" {% endif %}>
                             <i class="fa-regular fa-handshake menu-icon"></i>
                             <div class="d-none d-lg-block"> Контакты</div>
                         </a>
                     </li>
                     <br/>
-                    <li class="nav-item fw-bold">
-                        <a href="#">
-                            <i class="fa-solid fa-user-gear menu-icon"> </i>
-                            <div class="d-none d-lg-block"> Регистрация</div>
-                        </a>
-                    </li>
                 </ul>
                 <hr>
                 <div>
                     <h3 class="d-none d-xl-block"> Найти новость по теме</h3>
                 </div>
                 <div class="input-group col-md-6 col-12 mx-md-auto mx-3 mt-3 mb-1 text-start">
-                        <input type="text" class="form-control" placeholder="Поиск..." aria-label="Поиск..." aria-describedby="button-search">
-                        <button class="btn btn-success" type="button" id="button-search">Искать</button>
+                    <input id="search_input" type="text" class="form-control" placeholder="Поиск..." aria-label="Поиск..." aria-describedby="button-search">
+                    <button class="btn btn-success" type="button" id="button-search">Искать</button>
                 </div>
+<!--                <div class="search col-md-6 col-12 mx-md-auto mx-3 mt-3 mb-1 text-start">-->
+<!--                     <label for="search_input">Поиск: </label>-->
+<!--                     <input id="search_input">-->
+<!--                     <button class="btn btn-primary"> Найти</button>-->
+<!--                </div>-->
                 <hr>
-                <div class="dropdown " >
+
+             {% if request.user.id %}  <!-- проверяем аутентификацию-->
+                 <div class="dropdown " >
                     <button class="btn btn-success text-start col-12 dropdown-toggle dropdown-menu-right" type="button" id="dropdownMenuButton1"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-user-secret menu-icon"></i><div class="d-none d-lg-block responsive-title"> Профиль пользователя</div>
+                        <img src="{{ request.user.account.account_image.url }}" alt="" width="40" height="40" class="rounded-circle me-2 menu-icon" style="padding: 0 0 0 0">
+                        <div class="d-none d-lg-block responsive-title "> {{ request.user.username }}</div>
                     </button>
                     <ul class="dropdown-menu col-12" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="/profile/"><i class="fa-solid fa-fingerprint menu-icon"></i><div class="d-none d-lg-block"> Вход в аккаунт</div></a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fa-solid fa-user-secret menu-icon"></i><div class="d-none d-lg-block"> Мой аккаунт</div></a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#"> Выход</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}"> Выход</a></li>
                     </ul>
                 </div>
 
+            {% else %} <!-- ссылки на регистрацию и аутентификацию-->
+                <ul class="nav nav-pills flex-column mb-auto" >
+                    <li class="nav-item fw-bold">
+                        <a href="{% url 'registration' %}" {% if request.resolver_match.view_name  == 'registration' %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-solid fa-user-gear menu-icon"> </i>
+                            <div class="d-none d-lg-block"> Регистрация</div>
+                        </a>
+                    </li>
+                     <br/>
+                    <li class="nav-item fw-bold">
+                        <a href="{% url 'login' %}" {% if request.resolver_match.view_name  == 'login' %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-solid fa-fingerprint menu-icon"> </i>
+                            <div class="d-none d-lg-block"> Вход </div>
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+               {% endif %}
 
+            {% if messages %}
+                {% for message in messages %}
+                    <br>
+                    <div class="alert-alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
     </div>
 <!--        </div>-->
 <!--    </div>-->

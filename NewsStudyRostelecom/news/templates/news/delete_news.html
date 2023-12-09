@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block title %}Новость{% endblock %}
+<link rel="stylesheet" href="{% static 'main/css/style.css' %}" xmlns="http://www.w3.org/1999/html">
+    <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block head %}{% endblock %}
+
+{% block content %}
+<div class="row">
+            <div class="text-center" style="margin-top:30px;">
+            <h1 >Удалить статью: "{{ article.title }}"?</h1>
+            <form method="post" class="contact_form">
+                {% csrf_token %}
+                <a class="btn btn-warning" href="{% url 'news_index' %}">Отмена</a>
+                <input type="submit" class="btn btn-danger" value = "Удалить">
+            </form>
+            </div>
+
+</div>
+
+{% endblock %}

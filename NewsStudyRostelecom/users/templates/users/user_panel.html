@@ -1,0 +1,105 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+<script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<aside>
+    <div class="container-fluid">
+<!--        <div class="row">-->
+<!--            <div class="col-12">-->
+                <div class="row">
+                    <div class="col-2 col-sm-2 col-md-3 col-ld-3">
+                        <img src="{% static 'main/img/icon1.png' %}" alt="Иконка" style="widht:auto; height:80px">
+                    </div>
+                    <div class="col-10 col-sm-10 col-md-9 col-ld-9">
+                        <h2 class="text-success mt-3 d-none d-xl-block responsive-title">"Зелёные" новости</h2>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <h3> Меню сайта</h3>
+                </div>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto" >
+                    <li class="nav-item fw-bold ">
+                        <a href="{% url 'home' %}" {% if request.resolver_match.view_name == "home" %} class="link-active" aria-current="page" {% endif %}>
+                        <i class="fa-solid fa-landmark menu-icon"></i>
+                        <div class="d-none d-lg-block">Главная страница</div>
+                        </a>
+                    </li>
+                    <br/>
+                    <li class="nav-item fw-bold">
+                        <a href="{% url 'news_index' %}" {% if request.resolver_match.view_name == "news_index" %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-solid fa-globe menu-icon"></i>
+                            <div class="d-none d-lg-block"> Новости</div>
+                        </a>
+                    </li>
+                    <br/>
+                    <li class="nav-item fw-bold">
+                        <a href="{% url 'about' %}" {% if request.resolver_match.view_name == "about" %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-regular fa-handshake menu-icon"></i>
+                            <div class="d-none d-lg-block"> Контакты</div>
+                        </a>
+                    </li>
+                    <br/>
+                </ul>
+                <hr>
+                <div>
+                    <h3 class="d-none d-xl-block"> Найти новость по теме</h3>
+                </div>
+                <div class="input-group col-md-6 col-12 mx-md-auto mx-3 mt-3 mb-1 text-start">
+                        <input type="text" class="form-control" placeholder="Поиск..." aria-label="Поиск..." aria-describedby="button-search">
+                        <button class="btn btn-success" type="button" id="button-search">Искать</button>
+                </div>
+                <hr>
+
+             {% if request.user.id %}  <!-- проверяем аутентификацию-->
+                 <div class="dropdown " >
+                    <button class="btn btn-success text-start col-12 dropdown-toggle dropdown-menu-right" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ request.user.account.account_image.url }}" alt="" width="40" height="40" class="rounded-circle me-2 menu-icon" style="padding: 0 0 0 0">
+                        <div class="d-none d-lg-block responsive-title "> {{ request.user.username }}</div>
+                    </button>
+                    <ul class="dropdown-menu col-12" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fa-solid fa-user-secret menu-icon"></i><div class="d-none d-lg-block"> Мой аккаунт</div></a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}"> Выход</a></li>
+                    </ul>
+                </div>
+
+            {% else %} <!-- ссылки на регистрацию и аутентификацию-->
+                <ul class="nav nav-pills flex-column mb-auto" >
+                    <li class="nav-item fw-bold">
+                        <a href="{% url 'registration' %}" {% if request.resolver_match.view_name  == 'registration' %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-solid fa-user-gear menu-icon"> </i>
+                            <div class="d-none d-lg-block"> Регистрация</div>
+                        </a>
+                    </li>
+                     <br/>
+                    <li class="nav-item fw-bold">
+                        <a href="{% url 'login' %}" {% if request.resolver_match.view_name  == 'login' %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-solid fa-fingerprint menu-icon"> </i>
+                            <div class="d-none d-lg-block"> Вход </div>
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+               {% endif %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    <br>
+                    <div class="alert-alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+    </div>
+<!--        </div>-->
+<!--    </div>-->
+</aside>

@@ -1,0 +1,161 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block title %} Все новости {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="text-center" style="margin-top:30px;">
+        <h1 class="text-success">Новости нашего сайта по категориям</h1><br/>
+    </div>
+    <div class="content_center">
+        <h2>Фильтр по автору</h2>
+        <div class="form-group col-8">
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <select class="form-select" name="author_filter" style="widht:40%">
+                        <option value="0">Все авторы</option>
+                        {% for author in author_list %}
+                        <option value="{{ author.id }}" {% if selected_a == author.id %} selected {% endif %}> {{ author.username }}</option>
+                        {% endfor %}
+                    </select>
+                    <select class="form-select" name="category_filter" style="widht:40%">
+                        <option value="0">Все категории</option>
+                        {% for c in categories %}
+                        <option value="{{ forloop.counter }}" {% if selected_c == forloop.counter %} selected {% endif %}> {{ c.1 }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="input-group-btn">
+                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="row px-4">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active color:green" data-toggle="tab" href="#">О растениях</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#">О животных</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#">Микромир</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#">Водная стихия</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#">Явления природы</a>
+                </li>
+            </ul>
+    </div>
+
+     <ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+  <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+  <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="home" class="tab-pane fade in active">
+    <h3>HOME</h3>
+    <p>Some content.</p>
+  </div>
+  <div id="menu1" class="tab-pane fade">
+    <h3>Menu 1</h3>
+    <p>Some content in menu 1.</p>
+  </div>
+  <div id="menu2" class="tab-pane fade">
+    <h3>Menu 2</h3>
+    <p>Some content in menu 2.</p>
+  </div>
+</div>
+
+    <div class="content_center">
+<!--        <h2>Фильтр по категории новости</h2>-->
+<!--        <div class="form-group col-8">-->
+<!--            <form method="post">-->
+<!--                {% csrf_token %}-->
+<!--                <div class="input-group">-->
+<!--                    <select class="form-select" name="category_filter" style="widht:40%">-->
+<!--                        <option value="0">Все категории</option>-->
+<!--                        {% for c in categories %}-->
+<!--                        <option value="{{ forloop.counter }}" {% if selected_c == forloop.counter %} selected {% endif %}> {{ c.1 }}</option>-->
+<!--                        {% endfor %}-->
+<!--                    </select>-->
+<!--                    <span class="input-group-btn">-->
+<!--                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">-->
+<!--                    </span>-->
+<!--                </div>-->
+
+<!--            </form>-->
+<!--        </div>-->
+    </div>
+
+</div>
+
+<!--             <div class="single_news">-->
+<!--                <div class="p-4 p-md-5 rounded " >-->
+<!--                        <div class="col-md-6 px-0">-->
+<!--                          <h1 class="display-4 fst-italic">{{ article.title }}</h1>-->
+<!--                          <p class="lead my-3">{{ article.anouncement }}</p>-->
+<!--&lt;!&ndash;                          <p class="lead mb-0"><a href="/new_single/" class="text-black fw-bold">Полный текст...</a></p>&ndash;&gt;-->
+<!--                           <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>-->
+<!--                        </div>-->
+<!--                  </div>-->
+<!--            </div>-->
+<!--<form method="post">-->
+<!--                {% csrf_token %}-->
+<!--                        <div class="form-group col-11">-->
+<!--                            <select class="form-select" name="author_filter" style="width:40%">-->
+<!--                                <option value="0">Все авторы</option>-->
+<!--                                {% for author in author_list %}-->
+<!--                                <option value="{{ author.id }}" {% if selected_author == author.id %} selected {% endif %}> {{ author.username }}-->
+<!--                                </option>-->
+<!--                                {% endfor %}-->
+<!--                            </select>-->
+<!--                            <select class="form-select" name="category_filter" style="width:40%">-->
+<!--                                <option value="0">Все категории</option>-->
+<!--                                {% for c in categories %}-->
+<!--                                <option value="{{ forloop.counter }}" {% if selected_category == forloop.counter %} selected {% endif %}> {{ c.1 }}-->
+<!--                                </option>-->
+<!--                                {% endfor %}-->
+<!--                            </select>-->
+<!--                            <input type="submit" class="btn btn-success" value="Применить">-->
+<!--                        </div>-->
+<!-- </form>-->
+    {% for article in articles %}
+                    <div class="single_news">
+                        <div class="p-4 p-md-5 border rounded" >
+                            <h1 class="display-6 fst-italic"> {{ article.title }}</h1>
+                                    <div class="row">
+                                        <div class="col-md-4 lead px-0 my-3">Дата: {{ article.date }}</div>
+                                        <div class="col-md-3 lead px-0 my-3 text-end">Автор: {{ article.author }} </div>
+                                        <div class="col-md-5 lead px-0 my-3 text-end">Категория новости: {{ article.get_category_display }} </div>
+                                    </div>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <img src="{{ article.image.url }}" class=" img-responsive img-fluid rounded">
+                                </div>
+                                <div class="col-8 ">
+                                  <p class="lead my-3">{{ article.anouncement }}</p>
+                                  <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>
+                                </div>
+                            </div>
+
+
+<!--<div class="col-sm-4" >-->
+<!--                    <img src="{% static 'main/img/colibri.jpg' %}" alt="Колибри"-->
+<!--                         class=" img-responsive img-fluid rounded">-->
+<!--                </div>-->
+
+                        </div>
+                    </div>
+
+    {% endfor %}
+
+{% endblock %}

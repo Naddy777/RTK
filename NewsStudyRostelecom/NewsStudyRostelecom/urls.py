@@ -40,5 +40,6 @@ if settings.DEBUG:
 
     urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-admin.site.site_header = "Панель администрирования новостей"
+admin.site.site_header = "Панель администрирования Зеленых новостей"
 admin.site.index_title = "Зеленые новости"
+admin.site.index_template = 'main/custom_admin.html'

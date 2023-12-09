@@ -1,23 +1,67 @@
 {% extends 'main/base.html' %}
 {% load static %}
 {% load bootstrap5 %}
+{% bootstrap_javascript %}
 {% block title %} Все новости {% endblock %}
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<!-- jQuery !-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+<!-- jQuery UI !-->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+  $(function() {
+    $("#search_input").autocomplete({
+      source: "search_auto/",
+      select: function (event, ui) { //item selected
+        AutoCompleteSelectHandler(event, ui)
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = ui.item;
+  }
+</script>
+
+
+
 <div class="row">
     <div class="text-center" style="margin-top:30px;">
         <h1 class="text-success">Новости нашего сайта по категориям</h1><br/>
     </div>
+
     <div class="content_center">
-        <h2>Фильтр по автору</h2>
+    <div class="row">
+        <div class="search">
+            <label for="search_input">Поиск: </label>
+            <input id="search_input">
+            <button class="btn btn-primary"> Найти</button>
+        </div>
+    </div>
+
+    <div class="content_center">
+        <h2>Фильтр по категориям</h2>
         <div class="form-group col-8">
             <form method="post">
                 {% csrf_token %}
                 <div class="input-group">
-                    <select class="form-select" name="author_filter" style="widht:40%">
-                        <option value="0">Все авторы</option>
-                        {% for author in author_list %}
-                        <option value="{{ author.id }}" {% if selected == author.id %} selected {% endif %}> {{ author.username }}</option>
+                    <select class="form-select" name="category_filter" style="widht:40%">
+                        <option value="0">Все категории</option>
+                        {% for c in categories %}
+                        <option value="{{ forloop.counter }}" {% if selected_c == forloop.counter %} selected {% endif %}> {{ c.1 }}</option>
                         {% endfor %}
                     </select>
                     <span class="input-group-btn">
@@ -30,6 +74,9 @@
     <br/>
     <div class="row px-4">
             <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active color:green" data-toggle="tab" href="#">Все категории</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link active color:green" data-toggle="tab" href="#">О растениях</a>
                 </li>
@@ -48,25 +95,27 @@
             </ul>
     </div>
 
-    <div class="content_center">
-        <h2>Фильтр по категории новости</h2>
-        <div class="form-group col-8">
-            <form method="post">
-                {% csrf_token %}
-                <div class="input-group">
-                    <select class="form-select" name="category_filter" style="widht:40%">
-                        <option value="0">Все категории</option>
-                        {% for categories in categories %}
-                        <option value="{{ categories.0 }}" {% if selected1 == article.category %} selected1 {% endif %}> {{ categories.1 }}</option>
-                        {% endfor %}
-                    </select>
-                    <span class="input-group-btn">
-                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">
-                    </span>
-                </div>
 
-            </form>
-        </div>
+
+    <div class="content_center">
+<!--        <h2>Фильтр по категории новости</h2>-->
+<!--        <div class="form-group col-8">-->
+<!--            <form method="post">-->
+<!--                {% csrf_token %}-->
+<!--                <div class="input-group">-->
+<!--                    <select class="form-select" name="category_filter" style="widht:40%">-->
+<!--                        <option value="0">Все категории</option>-->
+<!--                        {% for c in categories %}-->
+<!--                        <option value="{{ forloop.counter }}" {% if selected_c == forloop.counter %} selected {% endif %}> {{ c.1 }}</option>-->
+<!--                        {% endfor %}-->
+<!--                    </select>-->
+<!--                    <span class="input-group-btn">-->
+<!--                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">-->
+<!--                    </span>-->
+<!--                </div>-->
+
+<!--            </form>-->
+<!--        </div>-->
     </div>
 
 </div>
@@ -81,7 +130,26 @@
 <!--                        </div>-->
 <!--                  </div>-->
 <!--            </div>-->
-
+<!--<form method="post">-->
+<!--                {% csrf_token %}-->
+<!--                        <div class="form-group col-11">-->
+<!--                            <select class="form-select" name="author_filter" style="width:40%">-->
+<!--                                <option value="0">Все авторы</option>-->
+<!--                                {% for author in author_list %}-->
+<!--                                <option value="{{ author.id }}" {% if selected_author == author.id %} selected {% endif %}> {{ author.username }}-->
+<!--                                </option>-->
+<!--                                {% endfor %}-->
+<!--                            </select>-->
+<!--                            <select class="form-select" name="category_filter" style="width:40%">-->
+<!--                                <option value="0">Все категории</option>-->
+<!--                                {% for c in categories %}-->
+<!--                                <option value="{{ forloop.counter }}" {% if selected_category == forloop.counter %} selected {% endif %}> {{ c.1 }}-->
+<!--                                </option>-->
+<!--                                {% endfor %}-->
+<!--                            </select>-->
+<!--                            <input type="submit" class="btn btn-success" value="Применить">-->
+<!--                        </div>-->
+<!-- </form>-->
     {% for article in articles %}
                     <div class="single_news">
                         <div class="p-4 p-md-5 border rounded" >
@@ -93,7 +161,31 @@
                                     </div>
                             <div class="row">
                                 <div class="col-4 ">
-                                    <img src="{{ article.image.url }}" class=" img-responsive img-fluid rounded">
+                                    {% if article.image_set.all %}
+                                    <div id="carouselControls" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner" role="listbox"
+                                             style=" width:auto; height: 300px !important;">
+                                            {% for image in article.image_set.all %}
+                                            <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+                                                <img class="d-block img-responsive img-fluid rounded" src="{{ image.image.url }}"
+                                                     >
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselControls" role="button"
+                                           data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselControls" role="button"
+                                           data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                    {% endif%}
+                                    <!--                                    <img src="{{ article.image.url }}" class=" img-responsive img-fluid rounded">-->
+
                                 </div>
                                 <div class="col-8 ">
                                   <p class="lead my-3">{{ article.anouncement }}</p>
@@ -109,6 +201,7 @@
 
                         </div>
                     </div>
+
     {% endfor %}
 
 {% endblock %}

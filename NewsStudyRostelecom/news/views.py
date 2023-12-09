@@ -6,16 +6,56 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.db import connection, reset_queries
 from django.views.generic import DetailView, DeleteView, UpdateView
+from django.conf import settings
+import json
+
+# def search_auto(request):
+#     print('вызов функции')
+#     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+#     # if request.is_ajax():
+#         q = request.GET.get('term','')
+#         articles = Article.objects.filter(title__icontains=q)
+#         results =[]
+#         for a in articles:
+#             results.append(a.title)
+#         data = json.dumps(results)
+#     else:
+#         data = 'fail'
+#     mimetype = 'application/json'
+#     return HttpResponse(data,mimetype)
+
+def search_auto(request):
+    print('вызов функции')
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        q = request.GET.get('term','')
+        articles = Article.objects.filter(title__contains=q)
+        results =[]
+        for a in articles:
+            results.append(a.title)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    print('Работает?', results, data, mimetype)
+    return HttpResponse(data,mimetype)
+
 
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'news/news_single2.html'
     context_object_name = 'article'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_object = self.object
+        images = Image.objects.filter(article=current_object)
+        context['images'] = images
+        return context
 
 class ArticleUpdateView(UpdateView):
     model = Article
     template_name = 'news/create_article.html'
-    fields = ['title','anouncement','text','image','tags','category']
+    fields = ['title','anouncement','text', 'tags','category']
+
 
 class ArticleDeleteView(DeleteView):
     model = Article
@@ -58,46 +98,24 @@ class ArticleDeleteView(DeleteView):
 #     context = {'article': articles}
 #     return render(request, 'news/news.html', context)
 
-def news(request):
+def news2(request):
     user_list = User.objects.all() #Список всех юзеров#
     category_list = Article.categories
-    selected = 0
-    # selected1 = 0
     if request.method == "POST":
-        # print(request.POST)
-        selected = int(request.POST.get('author_filter'))
-        if selected == 0:
+        selected_a = int(request.POST.get('author_filter'))
+        selected_c = int(request.POST.get('category_filter'))
+        if selected_a == 0:
             articles = Article.objects.all().order_by('-date')
         else:
-            articles = Article.objects.filter(author=selected).order_by('-date')
-        print(connection.queries)
-        # selected1 = int(request.POST.get('category_filter'))
-        # if selected1 == 0:
-        #     articles = Article.objects.all().order_by('-date')
-        # else:
-        #     articles = Article.objects.filter(category=selected1).order_by('-date')
-        # print(connection.queries)
+            articles = Article.objects.filter(author=selected_a).order_by('-date')
+        if selected_c != 0:
+            articles = articles.filter(category__icontains=category_list[selected_c - 1][0])
     else:
+        selected_a = 0
+        selected_c = 0
         articles = Article.objects.all().order_by('-date')
-
-    # if request.method == "POST":
-    #     print(request.POST)
-    #     selected1 = int(request.POST.get('category_filter'))
-    #     if selected1 == 0:
-    #         articles1 = Article.objects.all().order_by('-date')
-    #     else:
-    #         articles1 = Article.objects.filter(category=selected1).order_by('-date')
-    #     print(connection.queries)
-    # else:
-    #     articles1 = Article.objects.all().order_by('-date')
-    context = {'articles': articles, 'author_list': user_list,  'selected': selected, 'categories': category_list} #,'articles1': articles1,'selected1': selected1}
-
-    # for category_single in category:
-    #     print(Article.category.filter(author=user))
-    # print(user_list)
-    # articles = Article.objects.filter(author=request.user.id) #печатаем все статьи одного пользователя
-    # context = {'article': articles}
-    return render(request, 'news/news.html', context)
+    context = {'articles': articles, 'author_list': user_list,  'selected_a': selected_a, 'categories': category_list, 'selected_c': selected_c}
+    return render(request, 'news/news2.html', context)
 
 def index(request):
     #пример применения пользовательского менджера
@@ -129,7 +147,7 @@ def new_single (request):
 def new_single2 (request):
     article = Article.objects.all().last()
     context = {'article': article}
-    return render(request, 'news/new_single.html', context)
+    return render(request, 'news/new_single2.html', context)
 
 # def index(request):
 #     article = Article.objects.all().first()
@@ -162,10 +180,10 @@ def detail(request, id):
 #         print(Article.objects.filter(author=user))
 #     print(user_list)
 
-@login_required (login_url="/") #человек не аутентифицирован - отправляем на другую страницу
+@login_required (login_url=settings.LOGIN_URL) #человек не аутентифицирован - отправляем на другую страницу
 def create_article(request):
     if request.method == 'POST':
-        form = ArticleForm(request.POST)
+        form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             current_user = request.user
             if current_user.id !=None: #проверили что не аноним
@@ -174,6 +192,8 @@ def create_article(request):
                 new_article.save() #сохраняем в БД
                 form.save_m2m() # добавляем связи много ко многим
                 # form = ArticleForm() # обнуляем (чистим) форму
+                for img in request.FILES.getlist('image_field'):
+                    Image.objects.create(article=new_article, image=img, title=img.name)
                 return redirect('news_index')
     else:
         form = ArticleForm()
@@ -181,7 +201,22 @@ def create_article(request):
 
 def detail2(request, id):
     article = Article.objects.filter(id=id).first()
-    print(article, type(article))
+    # print(article, type(article))
     context = {'article': article}
     # return HttpResponse(f'<h1>{article.title}</h1>')
     return render(request, 'news/new_single.html', context)
+
+def news(request):
+    category_list = Article.categories
+    if request.method == "POST":
+        selected_c = int(request.POST.get('category_filter'))
+        if selected_c == 0:
+            articles = Article.objects.all().order_by('-date')
+        else:
+            articles = Article.objects.filter(category__icontains=category_list[selected_c - 1][0]).order_by('-date')
+    else:
+        selected_c = 0
+        articles = Article.objects.all().order_by('-date')
+    # print(Article.objects.filter(category__icontains=category_list[1][0]))
+    context = {'articles': articles, 'categories': category_list, 'selected_c': selected_c}
+    return render(request, 'news/news.html', context)

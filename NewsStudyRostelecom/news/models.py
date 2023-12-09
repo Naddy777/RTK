@@ -2,12 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 import datetime
+from django.db.models import Count
 
 class Tag(models.Model):
     title = models.CharField(max_length=80)
     status = models.BooleanField(default=True)
     def __str__(self):
         return self.title
+
+    # def tag_count(self):
+    #     count = self.article_set.count()
+    #     # комментарий: когда мы работаем со связанными объектами (foreign_key, m2m, один к одному),
+    #     # мы можем обращаться к связанным таблицам при помощи синтаксиса:
+    #     # связаннаяМодель_set и что-то делать с результатами. В этом примере - мы используем связанные article
+    #     # и вызываем метод count
+    #     return count
     class Meta:
         ordering = ['title','status']
         verbose_name = 'Тэг'
@@ -32,9 +41,10 @@ class Article(models.Model):
     date = models.DateTimeField('Дата публикации', auto_now=True) # auto_now=True - автоизменение новости auto_create=True - автосоздание новости#
     category = models.CharField(choices=categories, max_length=20, verbose_name='Категории')
     tags = models.ManyToManyField(to=Tag, blank=True)
+    status = models.BooleanField(default=True)
     objects = models.Manager()
     published = PublishedToday()
-    image = models.ImageField(default='default1.jpg', null=True, blank=True, upload_to='images/')
+    # image = models.ImageField(default='default1.jpg', null=True, blank=True, upload_to='images/')
     # slug = models.SlugField()
     # default='default1.jpg' - добавить в скобки полей для кари=тинок, если надо по умолчанию сделать дефолтную картинку
 
@@ -42,8 +52,9 @@ class Article(models.Model):
     def __str__(self):
         return f'{self.title} от: {str(self.date)[:16]}'
     def image_tag(self):
-        if self.image is not None:
-            return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
+        image = Image.objects.filter(article=self)
+        if image:
+            return mark_safe('<img src="{}" height="50"/>'.format(image[0].image.url))
         else:
             return '(нет картинки)'
 
@@ -63,3 +74,16 @@ class Article(models.Model):
     #         s += t.title + ' '
     #     return s
 
+class Image(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    title = models.CharField(max_length=50, blank=True)
+    image = models.ImageField(default='default1.jpg', null=True, upload_to='images/') #лучше добавить поле default !!!
+
+    def __str__(self):
+        return self.title
+
+    def image_tag(self):
+        if self.image is not None:
+            return mark_safe(f'<img src="{self.image.url}" height="50px" width="auto" />')
+        else:
+            return '(нет картинки)'
