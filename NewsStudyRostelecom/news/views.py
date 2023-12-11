@@ -8,6 +8,7 @@ from django.db import connection, reset_queries
 from django.views.generic import DetailView, DeleteView, UpdateView
 from django.conf import settings
 import json
+from django.contrib import messages
 
 # def search_auto(request):
 #     print('вызов функции')
@@ -72,6 +73,31 @@ class ArticleUpdateView(UpdateView):
     template_name = 'news/create_article.html'
     fields = ['title','anouncement','text', 'tags','category']
 
+# Пока не работает
+def article_update(request):
+    article = Article.objects.filter(id=id).first()
+    user = request.user
+    article_form = ArticleUpdateForm(user,request.POST)
+    if request.method == "POST":
+        if article_form.is_valid():
+            article_form.save()
+            messages.success(request,"Статья успешно обновлена")
+            return redirect('new_single')
+    context = {'article': article, 'article_form':article_form}
+    return render(request,'news/edit_news.html', context)
+
+# def password_update(request):
+#     user = request.user
+#     form = PasswordChangeForm(user,request.POST)
+#     if request.method == 'POST':
+#         if form.is_valid():
+#             password_info = form.save()
+#             update_session_auth_hash(request,password_info)
+#             messages.success(request,'Пароль успешно изменен')
+#             return redirect('profile')
+#
+#     context = {"form": form}
+#     return render(request,'users/edit_password.html',context)
 
 class ArticleDeleteView(DeleteView):
     model = Article

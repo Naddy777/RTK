@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load crispy_forms_tags %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <meta charset="utf-8">
+    <title>Профиль</title>
+</head>
+{% block title %} Редактирование статьи {% endblock %}
+
+{% block content %}
+
+ <div class="row">
+     <div class="text_centre" style="margin: 50">
+         <h1>
+             Страница для редактирования новости
+         </h1>
+     </div>
+     <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ article_form|crispy }}
+                <input type="submit" class = "btn btn-success" value = "Сохранить">
+     </form>
+ </div>
+
+{% endblock %}

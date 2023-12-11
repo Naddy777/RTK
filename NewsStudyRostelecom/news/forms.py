@@ -2,6 +2,7 @@ from django import forms
 from django.core.validators import MinLengthValidator
 from .models import Article
 from django.forms import ModelForm, Textarea, CheckboxSelectMultiple
+from django.forms import TextInput, EmailInput, FileInput, Select
 
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
@@ -31,3 +32,10 @@ class ArticleForm(ModelForm):
             # 'image': N ),
         }
 
+class ArticleUpdateForm (forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ['title','anouncement','text','tags','category']
+        widgets = {'title': TextInput({'class': 'textinput form-control',
+                                          'placeholder': 'Введите заголовок'}),
+                   }

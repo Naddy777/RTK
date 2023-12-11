@@ -10,7 +10,9 @@ from .forms import AccountUpdateForm, UserUpdateForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
-
+def profile(request):
+    context = dict()
+    return render(request,'users/profile.html',context)
 
 def profile_update(request):
     user = request.user
@@ -27,6 +29,7 @@ def profile_update(request):
         context = {'account_form':AccountUpdateForm(instance=account),
                    'user_form':UserUpdateForm(instance=user)}
     return render(request,'users/edit_profile.html', context)
+
 
 def password_update(request):
     user = request.user
