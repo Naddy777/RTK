@@ -1,7 +1,6 @@
 from django.db import models
-
-# Create your models here.
 from django.contrib.auth.models import User
+from news.models import Article
 
 
 class Account(models.Model):
@@ -32,3 +31,8 @@ class Account(models.Model):
         ordering = ['user']
         verbose_name ='Автор'
         verbose_name_plural ='Авторы'
+
+class FavoriteArticle(models.Model):
+    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    article = models.ForeignKey(Article,on_delete=models.SET_NULL,null=True)
+    create_at=models.DateTimeField(auto_now_add=True)

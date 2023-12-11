@@ -10,8 +10,9 @@ urlpatterns = [
     path('update/<int:pk>', views.ArticleUpdateView.as_view(), name='news_update'),
     path('edit/<int:id>', views.article_update, name='edit_news'),
     path('delete/<int:pk>', views.ArticleDeleteView.as_view(), name='news_delete'),
-    path('search_auto1/', views.search_auto1, name='search_auto11'),
+    path('search_auto1/', views.search_auto1, name='search_auto1'),
     path('search_auto/', views.search_auto, name='search_auto'),
-    path('create/', views.create_article, name='create_article')
+    path('create/', views.create_article, name='create_article'),
+    # path('pagination', views.pagination, name='pagination'),
 
 ]

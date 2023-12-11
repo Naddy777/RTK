@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from .models import *
 from django.http import HttpResponse
@@ -9,6 +9,14 @@ from django.views.generic import DetailView, DeleteView, UpdateView
 from django.conf import settings
 import json
 from django.contrib import messages
+from django.core.paginator import Paginator
+from .utils import ViewCountMixin
+from users.utils import check_group #импортировли декоратор
+from django.conf import settings
+
+
+
+
 
 # def search_auto(request):
 #     print('вызов функции')
@@ -57,7 +65,7 @@ def search_auto1(request):
     print('Работает?', results)
     return HttpResponse(data,mimetype)
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(ViewCountMixin, DetailView):
     model = Article
     template_name = 'news/news_single2.html'
     context_object_name = 'article'
@@ -159,26 +167,29 @@ def news2(request):
     context = {'articles': articles, 'author_list': user_list,  'selected_a': selected_a, 'categories': category_list, 'selected_c': selected_c}
     return render(request, 'news/news2.html', context)
 
-def index(request):
-    #пример применения пользовательского менджера
-    articles = Article.published.all()
-    context={'today_articles': articles} #Это пример
-    author_list = User.objects.all()
-    selected = 0
-    if request.method=="POST":
-        # print(request.POST)
-        selected = int(request.POST.get('author_filter'))
-        if selected == 0:
-            articles = Article.objects.all()
-        else:
-            articles = Article.objects.filter(author=selected)
-        # print(connection.queries)
-    else:
-        articles = Article.objects.all()
-    context = {'articles': articles, 'author_list': author_list, 'selected': selected }
-
-    return render(request,'news/news.html',context)
-
+# def index(request):
+#     #пример применения пользовательского менджера
+#     articles = Article.published.all()
+#     context={'today_articles': articles} #Это пример
+#     author_list = User.objects.all()
+#     selected = 0
+#     if request.method=="POST":
+#         # print(request.POST)
+#         selected = int(request.POST.get('author_filter'))
+#         if selected == 0:
+#             articles = Article.objects.all()
+#         else:
+#             articles = Article.objects.filter(author=selected)
+#         # print(connection.queries)
+#     else:
+#         articles = Article.objects.all()
+#         p = Paginator(articles,2)
+#     page_number = request.GET.get('page')
+#     page_obj = p.get_page(page_number)
+#     print(page_obj)
+#     context = {'articles': page_obj, 'author_list': author_list, 'selected': selected}
+#
+#     return render(request,'news/news.html',context)
 
 
 def new_single (request):
@@ -200,7 +211,6 @@ def detail(request, id):
     article = Article.objects.filter(id=id).first()
     print(article, type(article))
     context = {'article': article}
-    # return HttpResponse(f'<h1>{article.title}</h1>')
     return render(request, 'news/new_single.html', context)
 #Пример создания новостей#
 # def detail(request,id):
@@ -223,6 +233,7 @@ def detail(request, id):
 #     print(user_list)
 
 @login_required (login_url=settings.LOGIN_URL) #человек не аутентифицирован - отправляем на другую страницу
+# @check_group('Authors')  #пример использования декоратора
 def create_article(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)
@@ -243,22 +254,37 @@ def create_article(request):
 
 def detail2(request, id):
     article = Article.objects.filter(id=id).first()
-    # print(article, type(article))
     context = {'article': article}
-    # return HttpResponse(f'<h1>{article.title}</h1>')
     return render(request, 'news/new_single.html', context)
 
 def news(request):
+    user_list = User.objects.all() #Список всех юзеров#
     category_list = Article.categories
     if request.method == "POST":
+        selected_a = int(request.POST.get('author_filter'))
         selected_c = int(request.POST.get('category_filter'))
-        if selected_c == 0:
+        if selected_a == 0:
             articles = Article.objects.all().order_by('-date')
         else:
-            articles = Article.objects.filter(category__icontains=category_list[selected_c - 1][0]).order_by('-date')
+            articles = Article.objects.filter(author=selected_a).order_by('-date')
+        if selected_c != 0:
+            articles = articles.filter(category__icontains=category_list[selected_c - 1][0])
     else:
+        selected_a = 0
         selected_c = 0
         articles = Article.objects.all().order_by('-date')
-    # print(Article.objects.filter(category__icontains=category_list[1][0]))
-    context = {'articles': articles, 'categories': category_list, 'selected_c': selected_c}
+    p = Paginator(articles,3)
+    page_number = request.GET.get('page')
+    page_obj = p.get_page(page_number)
+    context = {'articles': page_obj, 'author_list': user_list,  'selected_a': selected_a, 'categories': category_list, 'selected_c': selected_c}
     return render(request, 'news/news.html', context)
+
+
+# def pagination(request):
+#     articles = Article.objects.all()
+#     p = Paginator(articles,2)
+#     page_number = request.GET.get('page')
+#     page_obj = p.get_page(page_number)
+#     print(page_obj)
+#     context = {'articles': page_obj}
+#     return render(request,'news/news.html',context)

@@ -40,7 +40,7 @@ class Article(models.Model):
     text = models.TextField('Текст новости')
     date = models.DateTimeField('Дата публикации', auto_now=True) # auto_now=True - автоизменение новости auto_create=True - автосоздание новости#
     category = models.CharField(choices=categories, max_length=20, verbose_name='Категории')
-    tags = models.ManyToManyField(to=Tag, blank=True)
+    tags = models.ManyToManyField( to=Tag, blank=True, verbose_name='Теги')
     status = models.BooleanField(default=True)
     objects = models.Manager()
     published = PublishedToday()
@@ -58,7 +58,15 @@ class Article(models.Model):
         else:
             return '(нет картинки)'
 
-    #
+    def get_views(self):
+        return self.views.count()
+
+    class Meta:
+        ordering = ['title','date']
+        verbose_name= 'Новость'
+        verbose_name_plural='Новости'
+
+
     def get_absolute_url(self):
         return f'/news/{self.id}' # еще допускается ключ pk#
     #
@@ -87,3 +95,23 @@ class Image(models.Model):
             return mark_safe(f'<img src="{self.image.url}" height="50px" width="auto" />')
         else:
             return '(нет картинки)'
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Картинка'
+        verbose_name_plural = 'Картинки'
+
+
+class ViewCount(models.Model):
+    article = models.ForeignKey(Article,on_delete=models.CASCADE,
+                                related_name='views')
+    ip_address = models.GenericIPAddressField()
+    view_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering=('-view_date',)
+        indexes = [models.Index(fields=['-view_date'])]
+        verbose_name = 'Просмотры'
+        verbose_name_plural = 'Просмотры'
+
+    def __str__(self):
+        return self.article.title

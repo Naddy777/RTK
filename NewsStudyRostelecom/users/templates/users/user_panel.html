@@ -2,6 +2,7 @@
 {% load bootstrap5 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
+{% load users_extras %}
 
 <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
 <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
@@ -33,6 +34,14 @@
                     <br/>
                     <li class="nav-item fw-bold">
                         <a href="{% url 'news_index' %}" {% if request.resolver_match.view_name == "news_index" %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-solid fa-globe menu-icon"></i>
+                            <div class="d-none d-lg-block"> Новости </div>
+                        </a>
+                    </li>
+                    <br/>
+                    {% if request.user|has_group:"Author" %}
+                    <li class="nav-item fw-bold">
+                        <a href="#" {% if request.resolver_match.view_name == "news_index" %} class="link-active" aria-current="page" {% endif %}>
                             <i class="fa-solid fa-envelopes-bulk menu-icon"></i>
                             <div class="d-none d-lg-block"> Мои статьи</div>
                         </a>
@@ -45,6 +54,15 @@
                         </a>
                     </li>
                     <br/>
+                    {% endif %}
+                     <li class="nav-item fw-bold">
+                        <a href="#" {% if request.resolver_match.view_name == "create" %} class="link-active" aria-current="page" {% endif %}>
+                            <i class="fa-solid fa-heart menu-icon"></i>
+                            <div class="d-none d-lg-block"> Избранное </div>
+                        </a>
+                    </li>
+                    <br/>
+
                     <li class="nav-item fw-bold">
                         <a href="{% url 'profile' %}" {% if request.resolver_match.view_name == "profile" %} class="link-active" aria-current="page" {% endif %}>
                             <i class="fa-solid fa-user-secret menu-icon"></i>

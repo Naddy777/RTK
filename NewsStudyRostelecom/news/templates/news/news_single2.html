@@ -2,6 +2,8 @@
 {% load static %}
 {% load bootstrap5 %}
 {% bootstrap_javascript %}
+{% load users_extras %}
+
 {% block title %}Новость{% endblock %}
 <link rel="stylesheet" href="{% static 'main/css/style.css' %}" xmlns="http://www.w3.org/1999/html">
     <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
@@ -64,8 +66,12 @@
             </div>
         </div>
 </br>
+            {% if request.user|has_group:"Author" %}
+
             <a class="btn btn-warning" href="{% url 'news_delete' article.pk %}">Удалить</a>
             <a class="btn btn-success" href="{% url 'news_update' article.pk %}">Редактировать</a>
+
+            {% endif %}
     </div>
 </div>
 
