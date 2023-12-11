@@ -10,6 +10,7 @@ from .forms import AccountUpdateForm, UserUpdateForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
+
 def profile(request):
     context = dict()
     return render(request,'users/profile.html',context)
@@ -90,5 +91,3 @@ def index (request):
 def user_panel (request):
     return render(request, 'users/user_panel.html')
 
-def profile (request):
-    return render(request, 'users/profile.html')
