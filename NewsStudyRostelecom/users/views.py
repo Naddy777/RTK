@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .models import *
 from .forms import *
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from .forms import AccountUpdateForm, UserUpdateForm
@@ -11,6 +11,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from news.models import Article
+
 
 @login_required
 def add_to_favorites(request, id):
@@ -77,6 +78,7 @@ def registration(request):
             password = form.cleaned_data.get('password1')
             # account = Account.objects.create(user=user, nickname=user.username)
             authenticate(username=username, password=password)
+            login(request, user)
             messages.success(request, f'{username} был зарегистрирован!')
             return redirect('home')
     else:

@@ -21,7 +21,6 @@ class Account(models.Model):
     telegram = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=20, null=True)
 
-
     # pip install pillow в терминале если нет библиотеки
 
     def __str__(self):
