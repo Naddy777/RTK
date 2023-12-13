@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/157685eaa0.js" crossorigin="anonymous"></script>
 {% bootstrap_css %}
 {% block head %}{% endblock %}
-
+{% block sidebar %} {% include 'users/user_panel.html' %} {% endblock %}
 {% block content %}
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"-->
 <!--      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
@@ -26,7 +26,7 @@
 <div class="single_news">
     <div class="p-4 p-md-5 rounded bg-warning bg-opacity-10">
         <div class="col-md-12 px-0">
-            <h1 class="display-4 fst-italic fw-bold text-success"> Обычное отображение! {{ article.title }} </h1>
+            <h1 class="display-4 fst-italic fw-bold text-success"> {{ article.title }} </h1>
         </div>
         <div class="row">
             <div class="col-md-4 lead px-0 my-3">Дата: {{ article.date }}</div>
