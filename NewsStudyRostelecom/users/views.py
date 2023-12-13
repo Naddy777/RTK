@@ -11,6 +11,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from news.models import Article
+from django.core.paginator import Paginator
 
 
 @login_required
@@ -26,6 +27,21 @@ def add_to_favorites(request, id):
         bookmark = FavoriteArticle.objects.create(user=request.user, article=article)
         messages.success(request,f"Новость {article.title} добавлена в закладки")
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+def favorites_articles(request):
+    # article = Article.objects.all()
+    bookmark = FavoriteArticle.objects.filter(user=request.user)
+    total = len(bookmark)
+    p = Paginator(bookmark,4)
+    page_number = request.GET.get('page')
+    page_obj = p.get_page(page_number)
+    context = {'articles': page_obj, 'total':total,}
+    return render(request, 'users/favorites_articles.html', context)
+
+
+
+
+
 
 def profile(request):
     context = dict()
@@ -113,4 +129,24 @@ def index (request):
 
 def user_panel (request):
     return render(request, 'users/user_panel.html')
+
+
+def my_articles(request):
+    category_list = Article.categories #создали перечень категорий
+    author = User.objects.get(id=request.user.id)
+    articles = Article.objects.filter(author=author).order_by('-date')
+    if request.method == "POST":
+        selected_c = int(request.POST.get('category_filter'))
+        if selected_c != 0: #фильтруем найденные результаты по категориям
+            articles = articles.filter(category__icontains=category_list[selected_c - 1][0])
+    else: #если страница открывется впервые
+        selected_c = 0
+    total = len(articles)
+    p = Paginator(articles,4)
+    page_number = request.GET.get('page')
+    page_obj = p.get_page(page_number)
+    context = {'articles': page_obj, 'total':total,
+               'categories':category_list,'selected_c': selected_c}
+
+    return render(request,'users/my_articles.html',context)
 

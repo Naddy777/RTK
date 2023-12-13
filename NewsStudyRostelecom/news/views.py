@@ -51,7 +51,7 @@ def search_auto(request):
 
 #Для поиска в сайдбаре
 def search_auto1(request):
-    print('вызов функции')
+    print('2вызов функции')
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         q = request.GET.get('term','')
         articles = Article.objects.filter(title__contains=q)
@@ -62,7 +62,7 @@ def search_auto1(request):
     else:
         data = 'fail'
     mimetype = 'application/json'
-    print('Работает?', results)
+    print('2Работает?', results)
     return HttpResponse(data,mimetype)
 
 class ArticleDetailView(ViewCountMixin, DetailView):
@@ -81,18 +81,7 @@ class ArticleUpdateView(UpdateView):
     template_name = 'news/create_article.html'
     fields = ['title','anouncement','text', 'tags','category']
 
-# Пока не работает
-def article_update(request):
-    article = Article.objects.filter(id=id).first()
-    user = request.user
-    article_form = ArticleUpdateForm(user,request.POST)
-    if request.method == "POST":
-        if article_form.is_valid():
-            article_form.save()
-            messages.success(request,"Статья успешно обновлена")
-            return redirect('new_single')
-    context = {'article': article, 'article_form':article_form}
-    return render(request,'news/edit_news.html', context)
+
 
 # def password_update(request):
 #     user = request.user
@@ -251,6 +240,26 @@ def create_article(request):
     else:
         form = ArticleForm()
     return render(request,'news/create_article.html', {'form':form})
+# Пока не работает
+def article_update(request,id):
+    article = Article.objects.filter(id=id).first()
+    if request.method == "POST":
+        article_form = ArticleUpdateForm(request.POST, request.FILES)
+        if article_form.is_valid():
+            user = request.user
+            if user.id !=None: #проверили что не аноним
+                article = article_form.save(commit=False)
+                article.author = user
+                article.save()
+                article_form.save_m2m()
+                for img in request.FILES.getlist('image_field'):
+                    Image.objects.create(article=article, image=img, title=img.name)
+                messages.success(request, "Статья успешно обновлена")
+                return redirect('new_single')
+    else:
+        article_form = ArticleUpdateForm(instance=article)
+    context = { 'article_form':article_form}
+    return render(request,'news/edit_news.html', context)
 
 def detail2(request, id):
     article = Article.objects.filter(id=id).first()
@@ -273,10 +282,11 @@ def news(request):
         selected_a = 0
         selected_c = 0
         articles = Article.objects.all().order_by('-date')
+    total = len(articles)
     p = Paginator(articles,3)
     page_number = request.GET.get('page')
     page_obj = p.get_page(page_number)
-    context = {'articles': page_obj, 'author_list': user_list,  'selected_a': selected_a, 'categories': category_list, 'selected_c': selected_c}
+    context = {'articles': page_obj, 'author_list': user_list,  'selected_a': selected_a, 'categories': category_list, 'selected_c': selected_c, 'total':total}
     return render(request, 'news/news.html', context)
 
 

@@ -33,9 +33,16 @@ class ArticleForm(ModelForm):
         }
 
 class ArticleUpdateForm (forms.ModelForm):
+    image_field = MultipleFileField()
     class Meta:
         model = Article
-        fields = ['title','anouncement','text','tags','category']
+        fields = ['title','anouncement','text','tags','category', ]
         widgets = {'title': TextInput({'class': 'textinput form-control',
                                           'placeholder': 'Введите заголовок'}),
+                   'anouncement': TextInput({'class': 'textinput form-control',
+                                       'placeholder': 'Введите аннотацию'}),
+                   'text': TextInput({'class': 'textinput form-control',
+                                       'placeholder': 'Введите текст'}),
+                   'image_field': FileInput({'class': 'form-control'}),
+                   'tags': CheckboxSelectMultiple(),
                    }

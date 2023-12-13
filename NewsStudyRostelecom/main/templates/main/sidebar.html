@@ -16,7 +16,7 @@
 <script>
   $(function() {
     $("#search_input").autocomplete({
-      source: "search_auto",
+      source: "{% url 'search_auto' %}",
       select: function (event, ui) { //item selected
         AutoCompleteSelectHandler(event, ui)
       },
@@ -63,7 +63,7 @@
                     <br/>
                     {% if request.user.id %}
                     <li class="nav-item fw-bold">
-                        <a href="#" {% if request.resolver_match.view_name == "create" %} class="link-active" aria-current="page" {% endif %}>
+                        <a href="{% url 'favorites_articles' %}" {% if request.resolver_match.view_name == "favorites_articles" %} class="link-active" aria-current="page" {% endif %}>
                             <i class="fa-solid fa-heart menu-icon"></i>
                             <div class="d-none d-lg-block"> Избранное </div>
                         </a>

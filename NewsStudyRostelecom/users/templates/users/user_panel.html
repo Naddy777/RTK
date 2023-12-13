@@ -41,7 +41,7 @@
                     <br/>
                     {% if request.user|has_group:"Author" %}
                     <li class="nav-item fw-bold">
-                        <a href="#" {% if request.resolver_match.view_name == "news_index" %} class="link-active" aria-current="page" {% endif %}>
+                        <a href="{% url 'my_articles' %}" {% if request.resolver_match.view_name == "my_articles" %} class="link-active" aria-current="page" {% endif %}>
                             <i class="fa-solid fa-envelopes-bulk menu-icon"></i>
                             <div class="d-none d-lg-block"> Мои статьи</div>
                         </a>
@@ -56,7 +56,7 @@
                     <br/>
                     {% endif %}
                      <li class="nav-item fw-bold">
-                        <a href="#" {% if request.resolver_match.view_name == "create" %} class="link-active" aria-current="page" {% endif %}>
+                        <a href="{% url 'favorites_articles' %}" {% if request.resolver_match.view_name == "favorites_articles" %} class="link-active" aria-current="page" {% endif %}>
                             <i class="fa-solid fa-heart menu-icon"></i>
                             <div class="d-none d-lg-block"> Избранное </div>
                         </a>
