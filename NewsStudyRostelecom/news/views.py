@@ -244,7 +244,7 @@ def create_article(request):
 def article_update(request,id):
     article = Article.objects.filter(id=id).first()
     if request.method == "POST":
-        article_form = ArticleUpdateForm(request.POST, request.FILES)
+        article_form = ArticleUpdateForm(request.POST, request.FILES, instance=article)
         if article_form.is_valid():
             user = request.user
             if user.id !=None: #проверили что не аноним
