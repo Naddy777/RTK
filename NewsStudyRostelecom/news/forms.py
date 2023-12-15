@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import MinLengthValidator
-from .models import Article
+from .models import *
 from django.forms import ModelForm, Textarea, CheckboxSelectMultiple
 from django.forms import TextInput, EmailInput, FileInput, Select
 
@@ -20,6 +20,13 @@ class MultipleFileField(forms.FileField):
         else:
             result = single_file_clean(data, initial)
         return result
+
+# from django.forms import inlineformset_factory
+# ImagesFormSet = inlineformset_factory(Article, Image, fields=("image",),extra=1,max_num=4,
+#     widgets={
+#         "image_field": MultipleFileField(),
+#     })
+
 class ArticleForm(ModelForm):
     image_field = MultipleFileField()
     class Meta:
@@ -33,7 +40,7 @@ class ArticleForm(ModelForm):
         }
 
 class ArticleUpdateForm (forms.ModelForm):
-    image_field = MultipleFileField()
+    image_field = MultipleFileField(required=False)
     class Meta:
         model = Article
         fields = ['title','anouncement','text','tags','category', ]
