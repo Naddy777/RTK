@@ -14,6 +14,16 @@ from news.models import Article
 from django.core.paginator import Paginator
 
 
+def delete_profile(request):
+    return render(request, 'users/delete_profile.html')
+
+@login_required
+def del_user(request):
+    user = request.user
+    user.delete()
+    # Account.objects.delete(user=user)
+    return redirect ('login')
+
 @login_required
 def add_to_favorites(request, id):
     article = Article.objects.get(id=id)
@@ -41,8 +51,6 @@ def favorites_articles(request):
 
 
 
-
-
 def profile(request):
     context = dict()
     return render(request,'users/profile.html',context)
@@ -62,6 +70,7 @@ def profile_update(request):
         context = {'account_form':AccountUpdateForm(instance=account),
                    'user_form':UserUpdateForm(instance=user)}
     return render(request,'users/edit_profile.html', context)
+
 
 
 def password_update(request):
@@ -92,8 +101,8 @@ def registration(request):
                 user.groups.add(group)
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
-            # account = Account.objects.create(user=user, nickname=user.username)
-            authenticate(username=username, password=password)
+            account = Account.objects.create(user=user, nickname=user.username)
+            user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, f'{username} был зарегистрирован!')
             return redirect('home')

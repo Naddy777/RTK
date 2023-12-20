@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load crispy_forms_tags %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <meta charset="utf-8">
+    <title>Профиль</title>
+</head>
+
+{% block title %} {{ request.user.username }} - Удаление профиля {% endblock %}
+{% block sidebar %} {% include 'users/user_panel.html' %} {% endblock %}
+
+{% block content %}
+<div class="row">
+            <div class="text-center" style="margin-top:30px;">
+            <h1 >Удалить Ваш аккаунт?: "{{ request.user.username }}"?</h1>
+            <form method="post" class="contact_form">
+                {% csrf_token %}
+                <a class="btn btn-warning" href="{% url 'profile' %}">Отмена</a>
+                <a class="btn btn-danger" href="{% url 'delete_confirm' %}">Удалить</a>
+            </form>
+            </div>
+
+</div>
+
+{% endblock %}

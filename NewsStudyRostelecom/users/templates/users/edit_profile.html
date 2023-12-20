@@ -125,11 +125,14 @@
                     <div class="text-center">
                         <button class="btn btn-success" style="margin-bottom:15px;"
                            href="{% url 'profile' %}"> Сохранить </button>
-                        <a class="btn btn-danger" style="margin-bottom:15px;"
+                        <a class="btn btn-warning" style="margin-bottom:15px;"
                            href="{% url 'password' %}"> Изменить пароль </a>
+                    <div class="text-center">
+                        <small>
+                         <a class="btn btn-danger" href="{% url 'delete_profile' %}">Удалить аккаунт навсегда</a>
+                        </small>
                     </div>
-
-                </div>
+                    </div>
             </div>
         </div>
         </form>

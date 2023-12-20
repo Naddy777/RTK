@@ -6,22 +6,6 @@ from django.db.models import Count, Avg
 from django.contrib.auth.models import User
 import json
 def index (request):
-#     value = -10
-#     n1 = News('Новость 1', 'Текст 1', '07.11.23')
-#     n2 = News('Новость 2', 'Текст 1', '07.11.23')
-#     l = [n1, n2]
-#     m = ['раз', 'два', 'три']
-#     context = {'title': 'Мой сайт',
-#             'Header1': 'Заголовок страницы',
-#                'value': value,
-#                'numbers': l,
-#                'numbers2': m,
-#                }
-#     colors = ['red', 'blue', 'golden', 'black']
-#    context1 = {
-#      'colors': colors
-#     }
-# Примеры values, values_list:
     all_news = Article.objects.all().values('author','title')
     article = Article.objects.all().last()
     # for a in all_news:
@@ -101,7 +85,8 @@ def get_demo(request,a,operation,b):
     return HttpResponse(f'Вы ввели: {a} и {b} <br> Результат: {operation}:{result}')
 
 def custom_404(request,exception):
-    return HttpResponse(f'Страница не найдена. Код ошибки:  {exception}')
+
+    return render(request, 'main/custom_404.html')
 
 # def news (request):
 #     return render(request, 'main/news.html')
@@ -111,17 +96,4 @@ def custom_404(request,exception):
 def base (request):
     return render(request, 'main/base.html')
 
-# def search_auto1(request):
-#     print('вызов функции')
-#     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-#         q = request.GET.get('term','')
-#         articles = Article.objects.filter(title__contains=q)
-#         results =[]
-#         for a in articles:
-#             results.append(a.title)
-#         data = json.dumps(results)
-#     else:
-#         data = 'fail'
-#     mimetype = 'application/json'
-#     print('Работает?', results)
-#     return HttpResponse(data,mimetype)
+

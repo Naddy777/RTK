@@ -10,5 +10,6 @@ urlpatterns = [
     path('test_page/', views.test_page),
     # path('news/', views.news, name='news'),
     path('base/', views.base),
-    # path('sidebar/search_auto1/', views.search_auto1, name='search_auto1'),
+    path('custom_404/', views.custom_404),
+
 ]

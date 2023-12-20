@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from .models import *
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.db import connection, reset_queries
@@ -13,25 +13,32 @@ from django.core.paginator import Paginator
 from .utils import ViewCountMixin
 from users.utils import check_group #импортировли декоратор
 from django.conf import settings
+from django.db.models import Q
 
-
-
-
-
-# def search_auto(request):
-#     print('вызов функции')
-#     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-#     # if request.is_ajax():
-#         q = request.GET.get('term','')
-#         articles = Article.objects.filter(title__icontains=q)
-#         results =[]
-#         for a in articles:
-#             results.append(a.title)
-#         data = json.dumps(results)
+# def autosuggest(request):
+#     query_original = request.GET.get('term')
+#     qs = Article.objects.filter(title__icontains=query_original)
+#     results = []
+#     results += [article.title for article in qs]
+#     return JsonResponse(results, safe=False)
+#
+# def news_search(request):
+#     search_post = request.GET.get("search", None)
+#     if search_post:
+#         search_query = search_post.lower().split()
+#         lookups = Q()
+#         for word in search_query:
+#             lookups |= Q(title__icontains=word)
+#         posts = Article.objects.filter(lookups)
 #     else:
-#         data = 'fail'
-#     mimetype = 'application/json'
-#     return HttpResponse(data,mimetype)
+#         posts = Article.objects.all().order_by("-date")
+#
+#     context = {'posts': posts}
+#
+#     return render(request,'news/search.html', context)
+
+
+
 
 #Для поиска в шаблоне списка новостей
 def search_auto(request):
@@ -67,7 +74,7 @@ def search_auto1(request):
 
 class ArticleDetailView(ViewCountMixin, DetailView):
     model = Article
-    template_name = 'news/news_single2.html'
+    template_name = 'news/new_single.html'
     context_object_name = 'article'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -198,7 +205,6 @@ def new_single2 (request):
 
 def detail(request, id):
     article = Article.objects.filter(id=id).first()
-    print(article, type(article))
     context = {'article': article}
     return render(request, 'news/new_single.html', context)
 #Пример создания новостей#
@@ -222,7 +228,7 @@ def detail(request, id):
 #     print(user_list)
 
 @login_required (login_url=settings.LOGIN_URL) #человек не аутентифицирован - отправляем на другую страницу
-# @check_group('Authors')  #пример использования декоратора
+@check_group('Author')  #пример использования декоратора
 def create_article(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)

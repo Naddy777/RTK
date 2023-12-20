@@ -32,26 +32,6 @@ class UserUpdateForm(UserChangeForm):
                                            'placeholder': 'Last name'}),
                    }
 
-# class AccountUpdateForm(forms.ModelForm):
-#     class Meta:
-#         model = Account
-#         fields = ['phone', 'firstname','lastname','address','vk','telegram', 'account_image']
-#         widgets = {'phone': TextInput({'class': 'textinput form-control',
-#                                        'placeholder': 'phone number'}),
-#                    'address': TextInput({'class': 'textinput form-control',
-#                                          'placeholder': 'address'}),
-#                    'firstname': TextInput({'class': 'textinput form-control',
-#                                          'placeholder': 'firstname'}),
-#                    'lastname': TextInput({'class': 'textinput form-control',
-#                                          'placeholder': 'lastname'}),
-#                    'vk': TextInput({'class': 'textinput form-control',
-#                                       'placeholder': 'vk'}),
-#                    'telegram': TextInput({'class': 'textinput form-control',
-#                                            'placeholder': 'telegram'}),
-#                    'account_image': FileInput({'class': 'form-control',
-#                                        'placeholder': 'image'})
-#                    }
-
 
 class AccountUpdateForm(forms.ModelForm):
     class Meta:

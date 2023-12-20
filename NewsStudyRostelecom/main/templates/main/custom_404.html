@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_javascript %}
+{% block title %} Нет страницы {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="single_news bg-warning bg-opacity-10">
+        <div class="p-4 p-md-5 border rounded">
+            <h1 class="display-6 fst-italic"> Такой страницы не существует!</h1>
+        </div>
+    </div>
+</div>
+</br>
+<div class="row">
+    <div class="single_news bg-warning bg-opacity-10">
+
+            <h1> Но есть много других! </h1>
+            <a class="ml-2" href="{% url 'news_index' %}"><h1> Жми сюда!</h1></a>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

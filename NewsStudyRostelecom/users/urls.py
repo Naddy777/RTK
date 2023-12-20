@@ -17,5 +17,6 @@ urlpatterns = [
     path('myarticles',views.my_articles,name='my_articles'),
     path('favorites/<int:id>', views.add_to_favorites, name='favorites'),
     path('favarticles', views.favorites_articles, name='favorites_articles'),
-
+    path('delete_profile/', views.delete_profile, name='delete_profile'),
+    path('delete_confirm/', views.del_user, name='delete_confirm'),
   ]
