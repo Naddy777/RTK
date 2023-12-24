@@ -4,7 +4,7 @@ from django.contrib import messages
 def check_group(*groups):
     def decorator(function):
         def wrapper(request,*args,**kwargs): #Функция-обёртка
-            print('Декоратор сработал!',groups)
+            # print('Декоратор сработал!',groups)
             user = request.user
             #если есть группы у нашего пользователя
             if user.groups.filter(name__in=groups).exists():

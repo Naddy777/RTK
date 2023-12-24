@@ -54,6 +54,8 @@
                 </div>
                 <p class="lead my-3">{{ article.anouncement }}</p>
                 <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>
+                <br/>
+                <p><small>Просмотры: {{ article.get_views }}</small></p>
             </div>
             <div class="col-4 ">
                 {% if article.image_set.all %}

@@ -17,12 +17,12 @@
 <!-- jQuery !-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
 <!-- jQuery UI !-->
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="{% static 'main/css/search_autocomplete.css' %}">
+<script src="{% static 'main/js/jquery.js' %}"></script>
 <script>
   $(function() {
     $("#search_input1").autocomplete({
-      source: "search_auto/",
+      source: "search_auto1/",
       select: function (event, ui) { //item selected
         AutoCompleteSelectHandler(event, ui)
       },
@@ -42,37 +42,7 @@
     <div class="text-center" style="margin-top:30px;">
         <h1 class="text-success">Новости нашего сайта</h1><br/>
     </div>
-
-    <div class="content_center">
-    <div class="row">
-        <div class="search">
-            <label for="search_input1">Поиск: </label>
-            <input id="search_input1" placeholder="Начните вводить здесь...">
-            <button class="btn btn-success" type="submit"> Найти</button>
-            <br>
-
-        </div>
-    </div>
-   <br/>
-<!--    <div class="content_center">-->
-<!--        <h2>Фильтр по категориям</h2>-->
-<!--        <div class="form-group col-8">-->
-<!--            <form method="post">-->
-<!--                {% csrf_token %}-->
-<!--                <div class="input-group">-->
-<!--                    <select class="form-select" name="category_filter" style="widht:40%">-->
-<!--                        <option value="0">Все категории</option>-->
-<!--                        {% for c in categories %}-->
-<!--                        <option value="{{ forloop.counter }}" {% if selected_c == forloop.counter %} selected {% endif %}> {{ c.1 }}</option>-->
-<!--                        {% endfor %}-->
-<!--                    </select>-->
-<!--                    <span class="input-group-btn">-->
-<!--                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">-->
-<!--                    </span>-->
-<!--                </div>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div><br/>-->
+</div>
     <div class="content_center">
         <h2>Фильтр по автору и по категориям</h2>
         <div class="form-group col-8">
