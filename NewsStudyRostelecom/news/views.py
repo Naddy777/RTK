@@ -125,34 +125,34 @@ def news(request):
 #         return redirect('home')
 
 
-def news22(request):
-    user_list = User.objects.all() #Список всех юзеров#
-    category_list = Article.categories
-    if request.method == "POST":
-        selected_a = int(request.POST.get('author_filter'))
-        selected_c = int(request.POST.get('category_filter'))
-        request.session['selected_a'] = selected_a
-        request.session['selected_c'] = selected_c
-        if selected_a == 0:
-            articles = Article.objects.all().order_by('-date')
-        else:
-            articles = Article.objects.filter(author=selected_a).order_by('-date')
-        if selected_c != 0:
-            articles = articles.filter(category__icontains=category_list[selected_c - 1][0])
-    else:
-        selected_a = request.session.get('selected_a')
-        if selected_a != None: #если не пустое - находим нужные ноновсти
-            articles = Article.objects.filter(author=selected_a)
-        else:
-            selected_a = 0
-        selected_c = 0
-        articles = Article.objects.all().order_by('-date')
-    total = len(articles)
-    p = Paginator(articles,3)
-    page_number = request.GET.get('page')
-    page_obj = p.get_page(page_number)
-    context = {'articles': page_obj, 'author_list': user_list,  'selected_a': selected_a, 'categories': category_list, 'selected_c': selected_c, 'total':total}
-    return render(request, 'news/news.html', context)
+# def news22(request):
+#     user_list = User.objects.all() #Список всех юзеров#
+#     category_list = Article.categories
+#     if request.method == "POST":
+#         selected_a = int(request.POST.get('author_filter'))
+#         selected_c = int(request.POST.get('category_filter'))
+#         request.session['selected_a'] = selected_a
+#         request.session['selected_c'] = selected_c
+#         if selected_a == 0:
+#             articles = Article.objects.all().order_by('-date')
+#         else:
+#             articles = Article.objects.filter(author=selected_a).order_by('-date')
+#         if selected_c != 0:
+#             articles = articles.filter(category__icontains=category_list[selected_c - 1][0])
+#     else:
+#         selected_a = request.session.get('selected_a')
+#         if selected_a != None: #если не пустое - находим нужные ноновсти
+#             articles = Article.objects.filter(author=selected_a)
+#         else:
+#             selected_a = 0
+#         selected_c = 0
+#         articles = Article.objects.all().order_by('-date')
+#     total = len(articles)
+#     p = Paginator(articles,3)
+#     page_number = request.GET.get('page')
+#     page_obj = p.get_page(page_number)
+#     context = {'articles': page_obj, 'author_list': user_list,  'selected_a': selected_a, 'categories': category_list, 'selected_c': selected_c, 'total':total}
+#     return render(request, 'news/news.html', context)
 
 
 

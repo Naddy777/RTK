@@ -40,9 +40,9 @@ def add_to_favorites(request, id):
 
 def favorites_articles(request):
     # article = Article.objects.all()
-    bookmark = FavoriteArticle.objects.filter(user=request.user)
+    bookmark = FavoriteArticle.objects.filter(user=request.user).order_by('-create_at')
     total = len(bookmark)
-    p = Paginator(bookmark,4)
+    p = Paginator(bookmark,3)
     page_number = request.GET.get('page')
     page_obj = p.get_page(page_number)
     context = {'articles': page_obj, 'total':total,}
