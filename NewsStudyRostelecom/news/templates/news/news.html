@@ -68,7 +68,7 @@
             </form>
         </div>
 <!--          <label><h1> Фильтры: (Всего :{{ total }} результатов) </h1>-->
-         {% if total > 1 %}
+         {% if total > 3 %}
         <div class="row fw-bold ">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
@@ -116,24 +116,7 @@
 
 
     <div class="content_center">
-<!--        <h2>Фильтр по категории новости</h2>-->
-<!--        <div class="form-group col-8">-->
-<!--            <form method="post">-->
-<!--                {% csrf_token %}-->
-<!--                <div class="input-group">-->
-<!--                    <select class="form-select" name="category_filter" style="widht:40%">-->
-<!--                        <option value="0">Все категории</option>-->
-<!--                        {% for c in categories %}-->
-<!--                        <option value="{{ forloop.counter }}" {% if selected_c == forloop.counter %} selected {% endif %}> {{ c.1 }}</option>-->
-<!--                        {% endfor %}-->
-<!--                    </select>-->
-<!--                    <span class="input-group-btn">-->
-<!--                        <input type="submit" class="btn btn-success" value="Применить" style="margin: 0 15px">-->
-<!--                    </span>-->
-<!--                </div>-->
 
-<!--            </form>-->
-<!--        </div>-->
     </div>
 
 </div>
@@ -208,9 +191,9 @@
                                 <div class="col-8 ">
                                   <p class="lead my-3">{{ article.anouncement }}</p>
                                   <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>
-<br/>
+                                    <br/>
                                     <p><small>Просмотры: {{ article.get_views }}</small></p>
-                                     <a class="btn btn-success text-start col-3" href="{% url 'favorites' article.pk %}">
+                                     <a class="btn btn-success text-start col-3" href="{% url 'favorites' article.id %}">
                                          <i class="fa-solid fa-heart menu-icon"></i>
                                          <div class="d-none d-lg-block"> В избранное</div>
                                      </a>

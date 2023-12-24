@@ -67,9 +67,11 @@
         </div>
         </br>
         {% if request.user|has_group:"Author" %}
-            <a class="btn btn-warning" href="{% url 'news_delete' article.pk %}">Удалить</a>
-            <a class="btn btn-success" href="{% url 'edit_news' article.id %}">Редактировать</a>
-         {% endif %}
+            {% if request.user.id == article.author.id %}
+                <a class="btn btn-warning" href="{% url 'news_delete' article.pk %}">Удалить</a>
+                <a class="btn btn-success" href="{% url 'edit_news' article.id %}">Редактировать</a>
+            {% endif %}
+        {% endif %}
     </div>
 </div>
 

@@ -89,7 +89,7 @@
                             текст...</a></p>
                         <br/>
                         <p><small>Просмотры: {{ article.article.get_views }}</small></p>
-                        <a class="btn btn-success text-start col-3" href="{% url 'favorites' article.pk %}">
+                        <a class="btn btn-success text-start col-3" href="{% url 'favorites' article.article.pk %}">
                             <i class="fa-solid fa-heart menu-icon"></i>
                             <div class="d-none d-lg-block"> В избранное</div>
                         </a>

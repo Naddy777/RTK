@@ -34,7 +34,8 @@ class Article(models.Model):
                   ('W', 'Вода'),
                   ('N', 'Природа'))
     #поля                                       #models.CASCADE SET_DEFAULT (совсем удалить пользователя вместе с новостями)
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    #author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True) - если хотим статьи оставлять при удалении юсера
     title = models.CharField('Название', max_length=50, default='') #указывать длину обязательно#
     anouncement = models.TextField('Аннотация', max_length=250) #можно не указывать длину#
     text = models.TextField('Текст новости')
