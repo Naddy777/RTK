@@ -8,18 +8,18 @@ class ArticleFilter(admin.SimpleListFilter):
     parameter_name = 'text'
 
     def lookups(self, request, model_admin):
-        return [('S',("Короткие, <100 зн.")),
-                ('M',("Средние, 100-500 зн.")),
-                ('L',("Длинные, >500 зн.")),]
+        return [('S',("Короткие, <500 зн.")),
+                ('M',("Средние, 500-1000 зн.")),
+                ('L',("Длинные, >1000 зн.")),]
 
     def queryset(self, request, queryset):
         if self.value() == 'S':
-            return queryset.annotate(text_len=Length('text')).filter(text_len__lt=100)
+            return queryset.annotate(text_len=Length('text')).filter(text_len__lt=500)
         elif self.value() == 'M':
-            return queryset.annotate(text_len=Length('text')).filter(text_len__lt=500,
-                                                                     text_len__gte=100)
+            return queryset.annotate(text_len=Length('text')).filter(text_len__lt=1000,
+                                                                     text_len__gte=500)
         elif self.value() == 'L':
-            return queryset.annotate(text_len=Length('text')).filter(text_len__gt=500)
+            return queryset.annotate(text_len=Length('text')).filter(text_len__gt=1000)
 
 class ArticleImageInline(admin.TabularInline): # есть еще StackedInline - другое расположение полей
     model = Image
