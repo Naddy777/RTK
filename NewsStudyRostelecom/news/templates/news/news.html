@@ -168,8 +168,7 @@
                                              style=" width:auto; height: 300px !important;">
                                             {% for image in article.image_set.all %}
                                             <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
-                                                <img class="d-block img-responsive img-fluid rounded" src="{{ image.image.url }}"
-                                                     >
+                                                <img class="d-block img-responsive img-fluid rounded" src="{{ image.image.url }}">
                                             </div>
                                             {% endfor %}
                                         </div>
