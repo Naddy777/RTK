@@ -24,6 +24,7 @@ from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('update_server/', main_views.update_server, name='update_server'),
     path('', include('main.urls')),
     path('news/', include('news.urls')),
     path('home/', include('home.urls')),

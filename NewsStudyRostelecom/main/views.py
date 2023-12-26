@@ -5,6 +5,11 @@ from news.models import Article
 from django.db.models import Count, Avg
 from django.contrib.auth.models import User
 import json
+import git
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+
+
 def index (request):
     all_news = Article.objects.all().values('author','title')
     article = Article.objects.all().last()
@@ -97,3 +102,15 @@ def base (request):
     return render(request, 'main/base.html')
 
 
+@csrf_exempt
+def update_server(request):
+    # header_signature = request.META.get('HTTP_X_HUB_SIGNATURE')
+    # verify_signature(request.body,settings.GITHUB_WEBHOOK_KEY,header_signature)
+
+    if request.method == "POST":
+        local_dir = '/home/Naddy777/RTK'
+        repo = git.Repo(local_dir)
+        repo.remotes.origin.pull()
+        return HttpResponse("PythonAnywhere server updated successfully")
+    else:
+        return HttpResponse("Вы попали не туда")
