@@ -30,12 +30,12 @@ SECRET_KEY = sc
 # Для проверки своей страницы 404 конфигурация такая:
 # DEBUG = False
 #
-# ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["Naddy777.pythonanywhere.com"]
 
 # В режиме отладки конфигурация такая:
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['Naddy777.pythonanywhere.com']
 
 
 # Application definition
