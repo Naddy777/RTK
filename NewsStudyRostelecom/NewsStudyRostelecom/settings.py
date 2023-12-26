@@ -35,7 +35,7 @@ SECRET_KEY = sc
 # В режиме отладки конфигурация такая:
 DEBUG = True
 
-ALLOWED_HOSTS = ['Naddy777.pythonanywhere.com']
+ALLOWED_HOSTS = ['Naddy777.pythonanywhere.com', '*']
 
 
 # Application definition
