@@ -68,12 +68,13 @@ def search(request):
 
 def news(request):
     user_list = User.objects.all() #Список всех юзеров#
+    # print(user_list)
     category_list = Article.categories
     if request.method == "POST":
         selected_a = int(request.POST.get('author_filter'))
         selected_c = int(request.POST.get('category_filter'))
-        request.session['selected_a'] = selected_a
-        request.session['selected_c'] = selected_c
+        request.session['author_filter'] = selected_a
+        request.session['category_filter'] = selected_c
         if selected_a == 0:
             articles = Article.objects.all().order_by('-date')
         else:
@@ -81,19 +82,30 @@ def news(request):
         if selected_c != 0:
             articles = articles.filter(category__icontains=category_list[selected_c - 1][0]).order_by('-date')
     else:
-        selected_a = request.session.get('selected_a')
-        if selected_a != None: #если не пустое - находим нужные ноновсти
-            articles = Article.objects.filter(author=selected_a).order_by('-date')
-        else:
-            selected_a = 0
-        selected_c = 0
+        # selected_a = request.session.get('selected_a')
+        # if selected_a != None: #если не пустое - находим нужные ноновсти
+        #     articles = Article.objects.filter(author=selected_a).order_by('-date')
+        # else:
+        #     selected_a = 0
+        # selected_c = 0
         value = request.session.get('search_input')  # вытаскиваем из сессии значение поиска
         if value != None:  # если не пустое - находим нужные ноновсти
             articles = Article.objects.filter(title__icontains=value).order_by('-date')
-            del request.session['search_input']  # чистим сессию, чтобы этот фильтр не "заело"
+            # del request.session['search_input']  # чистим сессию, чтобы этот фильтр не "заело"
         else:
-            # если не оказалось таокго ключика или запрос был кривой - отображаем все элементы
+            selected_a = request.session.get('author_filter')
+            selected_c = request.session.get('category_filter')
             articles = Article.objects.all().order_by('-date')
+            if selected_a != None and int(selected_a) != 0:  # если не пустое - находим нужные ноновсти
+                articles = articles.filter(author=selected_a).order_by('-date')
+            else:
+                selected_a = 0
+            if selected_c != None and int(selected_c) != 0:  # фильтруем найденные по авторам результаты по категориям
+                articles = articles.filter(category__icontains=category_list[selected_c - 1][0]).order_by('-date')
+            else:
+                selected_c = 0
+            # если не оказалось таокго ключика или запрос был кривой - отображаем все элементы
+            # articles = Article.objects.all().order_by('-date')
     # articles = Article.objects.all().order_by('-date')
     total = len(articles)
     p = Paginator(articles,3)

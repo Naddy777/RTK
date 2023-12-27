@@ -42,7 +42,7 @@
 <div class="single_news" >
     <div class="bg-warning bg-opacity-10 p-4 px-md-5 border rounded" >
         <div class="row text-end px-0">
-            <h1 class="display-6 fst-italic text-success">Последняя новость сайта. Выложил пользователь: {{ article.author }} </h1>
+            <h2 class="display-6 fst-italic text-success">Последняя новость сайта. Выложил пользователь: {{ article.author }} </h2>
         </div>
         <div class="row">
             <div class="col-8 px-0">
@@ -54,8 +54,12 @@
                 </div>
                 <p class="lead my-3">{{ article.anouncement }}</p>
                 <p class="lead mb-0"><a href="{{ article.get_absolute_url }}" class="text-black fw-bold">Полный текст...</a></p>
-                <br/>
-                <p><small>Просмотры: {{ article.get_views }}</small></p>
+                   <br>
+                <a class="btn btn-success text-start col-3" href="{% url 'favorites' article.id %}">
+                    <i class="fa-solid fa-heart menu-icon"></i>
+                    <div class="d-none d-lg-block"> В избранное</div>
+                </a>
+                 <p><small>Просмотры: {{ article.get_views }}</small></p>
             </div>
             <div class="col-4 ">
                 {% if article.image_set.all %}
