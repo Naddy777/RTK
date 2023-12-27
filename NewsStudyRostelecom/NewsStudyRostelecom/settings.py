@@ -28,14 +28,14 @@ SECRET_KEY = sc
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Для проверки своей страницы 404 конфигурация такая:
-# DEBUG = False
-#
-# ALLOWED_HOSTS = ["Naddy777.pythonanywhere.com"]
+DEBUG = False
+
+ALLOWED_HOSTS = ["Naddy777.pythonanywhere.com"]
 
 # В режиме отладки конфигурация такая:
-DEBUG = True
-
-ALLOWED_HOSTS = ['Naddy777.pythonanywhere.com', '*']
+# DEBUG = True
+#
+# ALLOWED_HOSTS = ['Naddy777.pythonanywhere.com', '*']
 
 
 # Application definition
